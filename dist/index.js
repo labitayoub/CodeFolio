@@ -12,7 +12,7 @@ const startServer = async () => {
         resolvers,
     });
     await server.start();
-    server.applyMiddleware({ app: app });
+    server.applyMiddleware({ app });
     const PORT = process.env.PORT || 4000;
     const mongoUri = process.env.MONGO_URI;
     if (!mongoUri) {

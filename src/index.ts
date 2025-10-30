@@ -1,5 +1,4 @@
 import express from "express";
-import type { Application } from "express";
 import { ApolloServer } from "apollo-server-express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
@@ -11,7 +10,7 @@ dotenv.config();
 
 const startServer = async () => {
   
-  const app: Application = express();
+  const app = express();
 
   const server = new ApolloServer({
     typeDefs,
@@ -20,7 +19,7 @@ const startServer = async () => {
 
   await server.start();
 
-  server.applyMiddleware({ app: app as any });
+  server.applyMiddleware({ app });
 
   const PORT = process.env.PORT || 4000;
 
