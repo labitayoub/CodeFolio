@@ -1,0 +1,1 @@
+{"version":3,"file":"document.resolvers.d.ts","sourceRoot":"","sources":["../../../../src/modules/document/graphql/document.resolvers.ts"],"names":[],"mappings":"AAEA,eAAO,MAAM,iBAAiB;;;sBAGZ,GAAG,UAAU;YAAE,EAAE,EAAE,MAAM,CAAA;SAAE;;;4BAGrB,GAAG,QAAQ,GAAG;4BACd,GAAG,mBAAmB,GAAG;4BACzB,GAAG,UAAU;YAAE,EAAE,EAAE,MAAM,CAAA;SAAE;;CAElD,CAAC"}

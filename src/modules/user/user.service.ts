@@ -7,7 +7,7 @@ export class UserService {
     return await UserModel.findOne({ email: 'ayoub@example.com' });
   }
 
-  async login(email, password) {
+  async login(email: string, password: string) {
     const user = await UserModel.findOne({ email });
     if (!user) {
       throw new Error('User not found');
@@ -25,7 +25,7 @@ export class UserService {
     return 'mock-jwt-token';
   }
 
-  async updateProfil(args) {
+  async updateProfil(args: any) {
     // In a real app, you would find the user and update their profile
     // For now, we'll return a mock updated user
     const user = await UserModel.findOneAndUpdate({ email: 'ayoub@example.com' }, args, { new: true });
