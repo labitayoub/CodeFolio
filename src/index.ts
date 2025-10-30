@@ -1,16 +1,17 @@
 import express from "express";
+import type { Application } from "express";
 import { ApolloServer } from "apollo-server-express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import typeDefs from "./graphql/typeDefs";
-import resolvers from "./graphql/resolvers";
+import typeDefs from "./graphql/typeDefs.js";
+import resolvers from "./graphql/resolvers.js";
 
 
 dotenv.config();
 
 const startServer = async () => {
   
-  const app = express();
+  const app: Application = express();
 
   const server = new ApolloServer({
     typeDefs,
@@ -19,7 +20,7 @@ const startServer = async () => {
 
   await server.start();
 
-  server.applyMiddleware({ app });
+  server.applyMiddleware({ app: app as any });
 
   const PORT = process.env.PORT || 4000;
 
