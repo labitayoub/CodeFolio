@@ -1,2 +1,2 @@
-export { typeDefs as experienceTypeDefs } from './experience.typeDefs';
+export { experienceTypeDefs } from './experience.typeDefs.js';
 //# sourceMappingURL=index.d.ts.map

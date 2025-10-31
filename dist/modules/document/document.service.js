@@ -1,20 +1,20 @@
-import { Document } from './document.model';
+import { DocumentModel } from './document.model.js';
 export class DocumentService {
     static async getAll() {
-        return Document.find();
+        return DocumentModel.find();
     }
     static async getById(id) {
-        return Document.findById(id);
+        return DocumentModel.findById(id);
     }
     static async create(data) {
-        const doc = new Document(data);
+        const doc = new DocumentModel(data);
         return doc.save();
     }
     static async update(id, data) {
-        return Document.findByIdAndUpdate(id, data, { new: true });
+        return DocumentModel.findByIdAndUpdate(id, data, { new: true });
     }
     static async delete(id) {
-        return Document.findByIdAndDelete(id);
+        return DocumentModel.findByIdAndDelete(id);
     }
 }
 //# sourceMappingURL=document.service.js.map

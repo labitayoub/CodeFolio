@@ -7,9 +7,9 @@ export interface IUser {
     bio?: string;
 }
 export type IUserDocument = IUser & Document;
-export declare const UserModel: import("mongoose").Model<unknown, unknown, unknown, unknown, Document<unknown, unknown, unknown, unknown, unknown> & Omit<{
-    _id: import("mongoose").Types.ObjectId;
-} & {
+export declare const UserModel: import("mongoose").Model<IUserDocument, {}, {}, {}, Document<unknown, {}, IUserDocument, {}, {}> & IUser & Document<unknown, any, any, Record<string, any>, {}> & Required<{
+    _id: unknown;
+}> & {
     __v: number;
-}, never>, IUserDocument>;
+}, any>;
 //# sourceMappingURL=user.model.d.ts.map

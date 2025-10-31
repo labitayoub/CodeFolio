@@ -1,17 +1,45 @@
 import { ProjectModel } from './project.model.js';
 export class ProjectService {
-    async getProjets() {
-        return await ProjectModel.find().populate('skills');
+    static async getAll() {
+        try {
+            return await ProjectModel.find();
+        }
+        catch (error) {
+            throw new Error('Failed to fetch projects');
+        }
     }
-    async createProjet(args) {
-        const newProject = new ProjectModel(args);
-        return await newProject.save();
+    static async getById(id) {
+        try {
+            return await ProjectModel.findById(id);
+        }
+        catch (error) {
+            throw new Error('Failed to fetch project');
+        }
     }
-    async updateProjet(id, args) {
-        return await ProjectModel.findByIdAndUpdate(id, args, { new: true });
+    static async create(data) {
+        try {
+            const newProject = new ProjectModel(data);
+            return await newProject.save();
+        }
+        catch (error) {
+            throw new Error('Failed to create project');
+        }
     }
-    async deleteProjet(id) {
-        return await ProjectModel.findByIdAndDelete(id);
+    static async update(id, data) {
+        try {
+            return await ProjectModel.findByIdAndUpdate(id, data, { new: true });
+        }
+        catch (error) {
+            throw new Error('Failed to update project');
+        }
+    }
+    static async delete(id) {
+        try {
+            return await ProjectModel.findByIdAndDelete(id);
+        }
+        catch (error) {
+            throw new Error('Failed to delete project');
+        }
     }
 }
 //# sourceMappingURL=project.service.js.map

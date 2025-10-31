@@ -1,4 +1,4 @@
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 export interface IFormation {
     filiere: string;
     ecole: string;
@@ -6,12 +6,12 @@ export interface IFormation {
     dateDebut: Date;
     dateFinal: Date;
     description: string;
-    userId: string;
+    userId: Types.ObjectId;
 }
 export type IFormationDocument = IFormation & Document;
-export declare const Formation: import("mongoose").Model<unknown, unknown, unknown, unknown, Document<unknown, unknown, unknown, unknown, unknown> & Omit<{
-    _id: import("mongoose").Types.ObjectId;
-} & {
+export declare const Formation: import("mongoose").Model<IFormationDocument, {}, {}, {}, Document<unknown, {}, IFormationDocument, {}, {}> & IFormation & Document<unknown, any, any, Record<string, any>, {}> & Required<{
+    _id: unknown;
+}> & {
     __v: number;
-}, never>, IFormationDocument>;
+}, any>;
 //# sourceMappingURL=formation.model.d.ts.map

@@ -1,4 +1,4 @@
-import { ProjectService } from '../project.service';
+import { ProjectService } from '../project.service.js';
 export const projectResolvers = {
     Query: {
         projects: () => ProjectService.getAll(),

@@ -1,2 +1,2 @@
-export { typeDefs as skillTypeDefs } from './skill.typeDefs';
+export { skillTypeDefs } from './skill.typeDefs.js';
 //# sourceMappingURL=index.d.ts.map

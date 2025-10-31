@@ -1,4 +1,4 @@
-import { FormationService } from '../formation.service';
+import { FormationService } from '../formation.service.js';
 export const formationResolvers = {
     Query: {
         formations: () => FormationService.getAll(),

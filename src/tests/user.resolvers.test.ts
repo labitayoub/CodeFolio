@@ -1,6 +1,6 @@
-import { resolvers } from '../../modules/user/graphql/user.resolvers.js';
-import { UserService } from '../../modules/user/user.service.js';
-import type { IUser } from '../../modules/user/user.model.js';
+import { resolvers } from '../../modules/user/graphql/user.resolvers';
+import { UserService } from '../../modules/user/user.service';
+import type { IUser } from '../../modules/user/user.model';
 
 describe('User Resolvers', () => {
   describe('Mutation.register', () => {

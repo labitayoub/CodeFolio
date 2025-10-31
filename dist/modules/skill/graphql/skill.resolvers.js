@@ -6,8 +6,11 @@ export const skillResolvers = {
         },
     },
     Mutation: {
-        createCompetence: async (_, { name, categorie }) => {
-            return await SkillService.create({ nom: name, categorie });
+        createCompetence: async (_, { name, categorie }, context) => {
+            if (!context.userId) {
+                throw new Error('Authentication required');
+            }
+            return await SkillService.create({ nom: name, categorie, userId: context.userId });
         },
         updateCompetence: async (_, { id, name, categorie }) => {
             return await SkillService.update(id, { nom: name, categorie });

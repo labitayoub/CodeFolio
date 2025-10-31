@@ -1,16 +1,41 @@
 export declare const documentResolvers: {
     Query: {
-        documents: () => any;
+        documents: () => Promise<(import("mongoose").Document<unknown, {}, import("../document.model.js").IDocumentDocument, {}, {}> & import("mongoose").Document<unknown, any, any, Record<string, any>, {}> & import("../document.model.js").IDocument & Required<{
+            _id: unknown;
+        }> & {
+            __v: number;
+        })[]>;
         document: (_: any, { id }: {
             id: string;
-        }) => any;
+        }) => Promise<(import("mongoose").Document<unknown, {}, import("../document.model.js").IDocumentDocument, {}, {}> & import("mongoose").Document<unknown, any, any, Record<string, any>, {}> & import("../document.model.js").IDocument & Required<{
+            _id: unknown;
+        }> & {
+            __v: number;
+        }) | null>;
     };
     Mutation: {
-        createDocument: (_: any, args: any) => any;
-        updateDocument: (_: any, { id, ...data }: any) => any;
+        createDocument: (_: any, { input }: {
+            input: any;
+        }) => Promise<import("mongoose").Document<unknown, {}, import("../document.model.js").IDocumentDocument, {}, {}> & import("mongoose").Document<unknown, any, any, Record<string, any>, {}> & import("../document.model.js").IDocument & Required<{
+            _id: unknown;
+        }> & {
+            __v: number;
+        }>;
+        updateDocument: (_: any, { id, input }: {
+            id: string;
+            input: any;
+        }) => Promise<(import("mongoose").Document<unknown, {}, import("../document.model.js").IDocumentDocument, {}, {}> & import("mongoose").Document<unknown, any, any, Record<string, any>, {}> & import("../document.model.js").IDocument & Required<{
+            _id: unknown;
+        }> & {
+            __v: number;
+        }) | null>;
         deleteDocument: (_: any, { id }: {
             id: string;
-        }) => any;
+        }) => Promise<(import("mongoose").Document<unknown, {}, import("../document.model.js").IDocumentDocument, {}, {}> & import("mongoose").Document<unknown, any, any, Record<string, any>, {}> & import("../document.model.js").IDocument & Required<{
+            _id: unknown;
+        }> & {
+            __v: number;
+        }) | null>;
     };
 };
 //# sourceMappingURL=document.resolvers.d.ts.map

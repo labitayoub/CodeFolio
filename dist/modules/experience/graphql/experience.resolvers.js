@@ -6,11 +6,27 @@ export const experienceResolvers = {
         },
     },
     Mutation: {
-        createExperience: async (_, { company, role, startDate, endDate, description }) => {
-            return await ExperienceService.create({ entreprise: company, poste: role, dateDebut: startDate, dateFinal: endDate, description });
+        createExperience: async (_, { company, role, startDate, endDate, description }, context) => {
+            if (!context.userId) {
+                throw new Error('Authentication required');
+            }
+            return await ExperienceService.create({
+                entreprise: company,
+                poste: role,
+                dateDebut: new Date(startDate),
+                dateFinal: new Date(endDate),
+                description,
+                userId: context.userId
+            });
         },
         updateExperience: async (_, { id, company, role, startDate, endDate, description }) => {
-            return await ExperienceService.update(id, { entreprise: company, poste: role, dateDebut: startDate, dateFinal: endDate, description });
+            return await ExperienceService.update(id, {
+                entreprise: company,
+                poste: role,
+                dateDebut: new Date(startDate),
+                dateFinal: new Date(endDate),
+                description
+            });
         },
         deleteExperience: async (_, { id }) => {
             return await ExperienceService.delete(id);

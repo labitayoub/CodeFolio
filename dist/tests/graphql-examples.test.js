@@ -52,7 +52,7 @@ export async function testUserRegistration() {
         return data;
     }
     catch (error) {
-        console.error('❌ Test échoué:', error.message);
+        console.error('❌ Test échoué:', error instanceof Error ? error.message : String(error));
         throw error;
     }
 }

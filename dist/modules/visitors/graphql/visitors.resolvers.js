@@ -1,4 +1,4 @@
-import { VisitorsService } from '../visitors.service';
+import { VisitorsService } from '../visitors.service.js';
 export const visitorsResolvers = {
     Query: {
         visitors: () => VisitorsService.getAll(),

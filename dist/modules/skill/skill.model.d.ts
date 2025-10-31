@@ -1,13 +1,13 @@
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 export interface ISkill {
     nom: string;
     categorie: string;
-    userId: string;
+    userId: Types.ObjectId;
 }
 export type ISkillDocument = ISkill & Document;
-export declare const Skill: import("mongoose").Model<unknown, unknown, unknown, unknown, Document<unknown, unknown, unknown, unknown, unknown> & Omit<{
-    _id: import("mongoose").Types.ObjectId;
-} & {
+export declare const Skill: import("mongoose").Model<ISkillDocument, {}, {}, {}, Document<unknown, {}, ISkillDocument, {}, {}> & ISkill & Document<unknown, any, any, Record<string, any>, {}> & Required<{
+    _id: unknown;
+}> & {
     __v: number;
-}, never>, ISkillDocument>;
+}, any>;
 //# sourceMappingURL=skill.model.d.ts.map

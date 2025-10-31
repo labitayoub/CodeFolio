@@ -1,9 +1,9 @@
 import request from 'supertest';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
-import { typeDefs as userTypeDefs } from '../../modules/user/graphql/user.typeDefs.js';
-import { resolvers as userResolvers } from '../../modules/user/graphql/user.resolvers.js';
-import { connectDB } from '../../config/db.js';
+import { typeDefs as userTypeDefs } from '../../modules/user/graphql/user.typeDefs';
+import { resolvers as userResolvers } from '../../modules/user/graphql/user.resolvers';
+import { connectDB } from '../../config/db';
 describe('GraphQL API Integration Tests', () => {
     let app;
     let server;

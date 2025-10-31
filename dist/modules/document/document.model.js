@@ -1,4 +1,4 @@
-import { Document, Schema, model, Types } from 'mongoose';
+import { Schema, model } from 'mongoose';
 const documentSchema = new Schema({
     nom: { type: String, required: true },
     urlStocket: { type: String, required: true },

@@ -6,8 +6,7 @@ export class UserService {
         const { nom, prenom, email, password, bio } = args;
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = new UserModel({ nom, prenom, email, password: hashedPassword, bio });
-        await user.save();
-        return user;
+        return await user.save();
     }
     async login(email, password) {
         const user = await UserModel.findOne({ email });
@@ -24,11 +23,10 @@ export class UserService {
         return jwt.sign({ userId: user.id, nom: user.nom, prenom: user.prenom, email: user.email }, process.env.JWT_SECRET, { expiresIn: "24h" });
     }
     async getProfil(userId) {
-        return await UserModel.findById(userId);
+        return await UserModel.findById(userId).select('-password');
     }
     async updateProfil(userId, args) {
-        const user = await UserModel.findByIdAndUpdate(userId, args, { new: true });
-        return user;
+        return await UserModel.findByIdAndUpdate(userId, args, { new: true }).select('-password');
     }
 }
 //# sourceMappingURL=user.service.js.map

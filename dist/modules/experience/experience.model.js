@@ -1,4 +1,4 @@
-import { Document, Schema, model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 const experienceSchema = new Schema({
     poste: { type: String, required: true },
     entreprise: { type: String, required: true },

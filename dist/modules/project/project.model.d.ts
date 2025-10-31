@@ -1,13 +1,16 @@
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 export interface IProject {
-    title: string;
+    titre: string;
     description: string;
-    skills: string[];
+    urlGit: string;
+    urlDemo: string;
+    image: string;
+    userId: Types.ObjectId;
 }
 export type IProjectDocument = IProject & Document;
-export declare const ProjectModel: import("mongoose").Model<unknown, unknown, unknown, unknown, Document<unknown, unknown, unknown, unknown, unknown> & Omit<{
-    _id: import("mongoose").Types.ObjectId;
-} & {
+export declare const ProjectModel: import("mongoose").Model<IProjectDocument, {}, {}, {}, Document<unknown, {}, IProjectDocument, {}, {}> & IProject & Document<unknown, any, any, Record<string, any>, {}> & Required<{
+    _id: unknown;
+}> & {
     __v: number;
-}, never>, IProjectDocument>;
+}, any>;
 //# sourceMappingURL=project.model.d.ts.map

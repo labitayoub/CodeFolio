@@ -9,7 +9,7 @@ export declare const experienceResolvers: {
             startDate: string;
             endDate: string;
             description: string;
-        }) => Promise<import("../experience.model.js").IExperienceDocument>;
+        }, context: any) => Promise<import("../experience.model.js").IExperienceDocument>;
         updateExperience: (_: any, { id, company, role, startDate, endDate, description }: {
             id: string;
             company: string;

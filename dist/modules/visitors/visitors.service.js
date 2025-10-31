@@ -1,4 +1,4 @@
-import { Visitors } from './visitors.model';
+import { Visitors } from './visitors.model.js';
 export class VisitorsService {
     static async getAll() {
         return Visitors.find();

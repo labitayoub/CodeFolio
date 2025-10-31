@@ -1,2 +1,2 @@
-export { typeDefs as skillTypeDefs } from './skill.typeDefs';
-// export { skillResolvers } from './skill.resolvers';
+export { skillTypeDefs } from './skill.typeDefs.js';
+// export { skillResolvers } from './skill.resolvers.js';

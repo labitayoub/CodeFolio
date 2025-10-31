@@ -1,8 +1,9 @@
+import type { IReseauxSociaux, IReseauxSociauxDocument } from './resieauxSociaux.model.js';
 export declare class ResieauxSociauxService {
-    static getAll(): Promise<any>;
-    static getById(id: string): Promise<any>;
-    static create(data: any): Promise<any>;
-    static update(id: string, data: any): Promise<any>;
-    static delete(id: string): Promise<any>;
+    static getAll(): Promise<IReseauxSociauxDocument[]>;
+    static getById(id: string): Promise<IReseauxSociauxDocument | null>;
+    static create(data: Partial<IReseauxSociaux>): Promise<IReseauxSociauxDocument>;
+    static update(id: string, data: Partial<IReseauxSociaux>): Promise<IReseauxSociauxDocument | null>;
+    static delete(id: string): Promise<IReseauxSociauxDocument | null>;
 }
 //# sourceMappingURL=resieauxSociaux.service.d.ts.map

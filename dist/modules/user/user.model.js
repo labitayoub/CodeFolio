@@ -1,4 +1,4 @@
-import { Document, Schema, model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 const userSchema = new Schema({
     nom: { type: String, required: true },
     prenom: { type: String, required: true },

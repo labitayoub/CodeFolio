@@ -18,9 +18,12 @@ import { visitorsResolvers } from "./modules/visitors/graphql/visitors.resolvers
 import { resieauxSociauxTypeDefs } from "./modules/resieauxSociaux/graphql/resieauxSociaux.typeDefs.js";
 import { resieauxSociauxResolvers } from "./modules/resieauxSociaux/graphql/resieauxSociaux.resolvers.js";
 import { connectDB } from "./config/db.js";
+import { authMiddleware } from "./middleware/auth.middleware.js";
 dotenv.config();
 const startServer = async () => {
     const app = express();
+    // apply auth middleware to populate req.userId from Authorization header
+    app.use(authMiddleware);
     const server = new ApolloServer({
         typeDefs: [
             userTypeDefs,
@@ -42,6 +45,7 @@ const startServer = async () => {
             visitorsResolvers,
             resieauxSociauxResolvers
         ],
+        context: ({ req }) => ({ userId: req.userId }),
     });
     await server.start();
     server.applyMiddleware({ app });

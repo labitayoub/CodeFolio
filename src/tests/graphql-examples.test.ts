@@ -56,7 +56,7 @@ export async function testUserRegistration() {
     console.log('✅ Test réussi - Utilisateur enregistré:', data.register);
     return data;
   } catch (error) {
-    console.error('❌ Test échoué:', error.message);
+    console.error('❌ Test échoué:', error instanceof Error ? error.message : String(error));
     throw error;
   }
 }

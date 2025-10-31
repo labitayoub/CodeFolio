@@ -1,12 +1,12 @@
-import { DocumentService } from '../document.service';
+import { DocumentService } from '../document.service.js';
 export const documentResolvers = {
     Query: {
         documents: () => DocumentService.getAll(),
         document: (_, { id }) => DocumentService.getById(id),
     },
     Mutation: {
-        createDocument: (_, args) => DocumentService.create(args),
-        updateDocument: (_, { id, ...data }) => DocumentService.update(id, data),
+        createDocument: (_, { input }) => DocumentService.create(input),
+        updateDocument: (_, { id, input }) => DocumentService.update(id, input),
         deleteDocument: (_, { id }) => DocumentService.delete(id),
     },
 };

@@ -1,2 +1,2 @@
-export { formationTypeDefs } from './formation.typeDefs';
-export { formationResolvers } from './formation.resolvers';
+export { formationTypeDefs } from './formation.typeDefs.js';
+export { formationResolvers } from './formation.resolvers.js';

@@ -30,11 +30,10 @@ export class UserService {
   }
 
   async getProfil(userId: string): Promise<IUserDocument | null> {
-  return await UserModel.findById<IUserDocument>(userId);
+    return await UserModel.findById<IUserDocument>(userId).select('-password');
   }
 
   async updateProfil(userId: string, args: Partial<IUser>): Promise<IUserDocument | null> {
-  const user = await UserModel.findByIdAndUpdate<IUserDocument>(userId, args, { new: true });
-  return user;
+    return await UserModel.findByIdAndUpdate<IUserDocument>(userId, args, { new: true }).select('-password');
   }
 }

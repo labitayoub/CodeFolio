@@ -1,4 +1,4 @@
-import { Document, Schema, model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 const formationSchema = new Schema({
     filiere: { type: String, required: true },
     ecole: { type: String, required: true },

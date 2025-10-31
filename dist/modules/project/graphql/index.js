@@ -1,3 +1,3 @@
-export { projectTypeDefs } from './project.typeDefs';
-export { projectResolvers } from './project.resolvers';
+export { projectTypeDefs } from './project.typeDefs.js';
+export { projectResolvers } from './project.resolvers.js';
 //# sourceMappingURL=index.js.map

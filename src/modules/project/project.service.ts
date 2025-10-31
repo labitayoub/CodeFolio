@@ -2,20 +2,44 @@ import { ProjectModel } from './project.model.js';
 import type { IProject, IProjectDocument } from './project.model.js';
 
 export class ProjectService {
-  async getProjets(): Promise<IProjectDocument[]> {
-    return await ProjectModel.find<IProjectDocument>().populate('skills');
+  static async getAll(): Promise<IProjectDocument[]> {
+    try {
+      return await ProjectModel.find<IProjectDocument>();
+    } catch (error) {
+      throw new Error('Failed to fetch projects');
+    }
   }
 
-  async createProjet(args: IProject): Promise<IProjectDocument> {
-    const newProject = new ProjectModel(args);
-    return await newProject.save();
+  static async getById(id: string): Promise<IProjectDocument | null> {
+    try {
+      return await ProjectModel.findById<IProjectDocument>(id);
+    } catch (error) {
+      throw new Error('Failed to fetch project');
+    }
   }
 
-  async updateProjet(id: string, args: Partial<IProject>): Promise<IProjectDocument | null> {
-    return await ProjectModel.findByIdAndUpdate<IProjectDocument>(id, args, { new: true });
+  static async create(data: IProject): Promise<IProjectDocument> {
+    try {
+      const newProject = new ProjectModel(data);
+      return await newProject.save();
+    } catch (error) {
+      throw new Error('Failed to create project');
+    }
   }
 
-  async deleteProjet(id: string): Promise<IProjectDocument | null> {
-    return await ProjectModel.findByIdAndDelete<IProjectDocument>(id);
+  static async update(id: string, data: Partial<IProject>): Promise<IProjectDocument | null> {
+    try {
+      return await ProjectModel.findByIdAndUpdate<IProjectDocument>(id, data, { new: true });
+    } catch (error) {
+      throw new Error('Failed to update project');
+    }
+  }
+
+  static async delete(id: string): Promise<IProjectDocument | null> {
+    try {
+      return await ProjectModel.findByIdAndDelete<IProjectDocument>(id);
+    } catch (error) {
+      throw new Error('Failed to delete project');
+    }
   }
 }

@@ -6,7 +6,7 @@ export declare const skillResolvers: {
         createCompetence: (_: any, { name, categorie }: {
             name: string;
             categorie: string;
-        }) => Promise<import("../skill.model.js").ISkillDocument>;
+        }, context: any) => Promise<import("../skill.model.js").ISkillDocument>;
         updateCompetence: (_: any, { id, name, categorie }: {
             id: string;
             name: string;

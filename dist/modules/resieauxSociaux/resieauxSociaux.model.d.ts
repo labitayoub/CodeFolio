@@ -1,41 +1,14 @@
-import { Schema } from 'mongoose';
-export declare const ResieauxSociaux: import("mongoose").Model<{
-    nom?: string | null | undefined;
-    userId?: import("mongoose").Types.ObjectId | null | undefined;
-    liensSociaux?: string | null | undefined;
-    icon?: string | null | undefined;
-}, {}, {}, {}, import("mongoose").Document<unknown, {}, {
-    nom?: string | null | undefined;
-    userId?: import("mongoose").Types.ObjectId | null | undefined;
-    liensSociaux?: string | null | undefined;
-    icon?: string | null | undefined;
-}, {}, import("mongoose").DefaultSchemaOptions> & {
-    nom?: string | null | undefined;
-    userId?: import("mongoose").Types.ObjectId | null | undefined;
-    liensSociaux?: string | null | undefined;
-    icon?: string | null | undefined;
-} & {
-    _id: import("mongoose").Types.ObjectId;
-} & {
-    __v: number;
-}, Schema<any, import("mongoose").Model<any, any, any, any, any, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, {
-    nom?: string | null | undefined;
-    userId?: import("mongoose").Types.ObjectId | null | undefined;
-    liensSociaux?: string | null | undefined;
-    icon?: string | null | undefined;
-}, import("mongoose").Document<unknown, {}, import("mongoose").FlatRecord<{
-    nom?: string | null | undefined;
-    userId?: import("mongoose").Types.ObjectId | null | undefined;
-    liensSociaux?: string | null | undefined;
-    icon?: string | null | undefined;
-}>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<{
-    nom?: string | null | undefined;
-    userId?: import("mongoose").Types.ObjectId | null | undefined;
-    liensSociaux?: string | null | undefined;
-    icon?: string | null | undefined;
+import { Document, Types } from 'mongoose';
+export interface IReseauxSociaux {
+    nom: string;
+    liensSociaux: string;
+    icon: string;
+    userId: Types.ObjectId;
+}
+export type IReseauxSociauxDocument = IReseauxSociaux & Document;
+export declare const ReseauxSociaux: import("mongoose").Model<IReseauxSociauxDocument, {}, {}, {}, Document<unknown, {}, IReseauxSociauxDocument, {}, {}> & IReseauxSociaux & Document<unknown, any, any, Record<string, any>, {}> & Required<{
+    _id: unknown;
 }> & {
-    _id: import("mongoose").Types.ObjectId;
-} & {
     __v: number;
-}>>;
+}, any>;
 //# sourceMappingURL=resieauxSociaux.model.d.ts.map

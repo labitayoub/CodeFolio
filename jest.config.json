@@ -1,11 +1,8 @@
 {
-  "preset": "ts-jest/presets/default-esm",
+  "preset": "ts-jest",
   "testEnvironment": "node",
-  "extensionsToTreatAsEsm": [".ts"],
   "transform": {
-    "^.+\\.ts$": ["ts-jest", {
-      "useESM": true
-    }]
+    "^.+\\.ts$": "ts-jest"
   },
   "moduleNameMapper": {
     "^(\\.{1,2}/.*)\\.js$": "$1"
@@ -16,8 +13,5 @@
     "src/**/*.ts",
     "!src/**/*.d.ts",
     "!src/tests/**"
-  ],
-  "transformIgnorePatterns": [
-    "node_modules/(?!(mongodb-memory-server)/)"
   ]
 }

@@ -1,3 +1,3 @@
-export { documentTypeDefs } from './document.typeDefs';
-export { documentResolvers } from './document.resolvers';
+export { documentTypeDefs } from './document.typeDefs.js';
+export { documentResolvers } from './document.resolvers.js';
 //# sourceMappingURL=index.js.map

@@ -1,4 +1,4 @@
-import { Document, Schema, model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 const skillSchema = new Schema({
     nom: { type: String, required: true },
     categorie: { type: String, required: true },

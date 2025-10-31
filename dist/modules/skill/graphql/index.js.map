@@ -1,1 +1,1 @@
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../../src/modules/skill/graphql/index.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,IAAI,aAAa,EAAE,MAAM,kBAAkB,CAAC;AAC7D,sDAAsD"}
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../../src/modules/skill/graphql/index.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,aAAa,EAAE,MAAM,qBAAqB,CAAC;AACpD,yDAAyD"}

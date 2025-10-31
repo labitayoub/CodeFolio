@@ -1,4 +1,4 @@
-import { ResieauxSociauxService } from '../resieauxSociaux.service';
+import { ResieauxSociauxService } from '../resieauxSociaux.service.js';
 
 export const resieauxSociauxResolvers = {
   Query: {

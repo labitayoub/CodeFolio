@@ -1,6 +1,6 @@
-import { UserService } from '../../modules/user/user.service.js';
-import { UserModel } from '../../modules/user/user.model.js';
-import type { IUser } from '../../modules/user/user.model.js';
+import { UserService } from '../../modules/user/user.service';
+import { UserModel } from '../../modules/user/user.model';
+import type { IUser } from '../../modules/user/user.model';
 
 describe('UserService', () => {
   describe('register', () => {

@@ -1,5 +1,4 @@
-import { resolvers } from '../../modules/user/graphql/user.resolvers.js';
-import { UserService } from '../../modules/user/user.service.js';
+import { resolvers } from '../../modules/user/graphql/user.resolvers';
 describe('User Resolvers', () => {
     describe('Mutation.register', () => {
         it('should register a new user', async () => {

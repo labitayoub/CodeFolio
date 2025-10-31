@@ -1,5 +1,4 @@
-import { UserService } from '../../modules/user/user.service.js';
-import { UserModel } from '../../modules/user/user.model.js';
+import { UserService } from '../../modules/user/user.service';
 describe('UserService', () => {
     describe('register', () => {
         it('should create a new user successfully', async () => {

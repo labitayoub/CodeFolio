@@ -1,2 +1,2 @@
-export { resieauxSociauxTypeDefs } from './resieauxSociaux.typeDefs';
-export { resieauxSociauxResolvers } from './resieauxSociaux.resolvers';
+export { resieauxSociauxTypeDefs } from './resieauxSociaux.typeDefs.js';
+export { resieauxSociauxResolvers } from './resieauxSociaux.resolvers.js';
