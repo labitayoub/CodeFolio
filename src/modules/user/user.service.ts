@@ -4,20 +4,20 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 export class UserService {
-  async register(args: IUser): Promise<IUserDocument> {
+  static async register(args: IUser): Promise<IUserDocument> {
     const { nom, prenom, email, password, bio } = args;
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new UserModel({ nom, prenom, email, password: hashedPassword, bio });
     return await user.save();
   }
 
-  async login(email: string, password: string): Promise<string> {
-  const user = await UserModel.findOne<IUserDocument>({ email });
+  static async login(email: string, password: string): Promise<string> {
+    const user = await UserModel.findOne<IUserDocument>({ email });
     if (!user) {
       throw new Error('User not found');
     }
 
-  const isPasswordValid = user ? await bcrypt.compare(password, user.password) : false;
+    const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       throw new Error('Invalid password');
     }
@@ -26,14 +26,14 @@ export class UserService {
       throw new Error('JWT_SECRET is not defined');
     }
 
-  return jwt.sign({ userId: user.id, nom: user.nom, prenom: user.prenom, email: user.email }, process.env.JWT_SECRET as string, { expiresIn: "24h" });
+    return jwt.sign({ userId: user.id, nom: user.nom, prenom: user.prenom, email: user.email }, process.env.JWT_SECRET, { expiresIn: "24h" });
   }
 
-  async getProfil(userId: string): Promise<IUserDocument | null> {
+  static async getProfil(userId: string): Promise<IUserDocument | null> {
     return await UserModel.findById<IUserDocument>(userId).select('-password');
   }
 
-  async updateProfil(userId: string, args: Partial<IUser>): Promise<IUserDocument | null> {
+  static async updateProfil(userId: string, args: Partial<IUser>): Promise<IUserDocument | null> {
     return await UserModel.findByIdAndUpdate<IUserDocument>(userId, args, { new: true }).select('-password');
   }
 }
