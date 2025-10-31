@@ -1,8 +1,9 @@
+import type { IFormation, IFormationDocument } from './formation.model.js';
 export declare class FormationService {
-    static getAll(): Promise<any>;
-    static getById(id: string): Promise<any>;
-    static create(data: any): Promise<any>;
-    static update(id: string, data: any): Promise<any>;
-    static delete(id: string): Promise<any>;
+    static getAll(): Promise<IFormationDocument[]>;
+    static getById(id: string): Promise<IFormationDocument | null>;
+    static create(data: IFormation): Promise<IFormationDocument>;
+    static update(id: string, data: Partial<IFormation>): Promise<IFormationDocument | null>;
+    static delete(id: string): Promise<IFormationDocument | null>;
 }
 //# sourceMappingURL=formation.service.d.ts.map

@@ -1,6 +1,8 @@
+import type { IUser, IUserDocument } from './user.model.js';
 export declare class UserService {
-    getProfil(): Promise<any>;
+    register(args: IUser): Promise<IUserDocument>;
     login(email: string, password: string): Promise<string>;
-    updateProfil(args: any): Promise<any>;
+    getProfil(userId: string): Promise<IUserDocument | null>;
+    updateProfil(userId: string, args: Partial<IUser>): Promise<IUserDocument | null>;
 }
 //# sourceMappingURL=user.service.d.ts.map

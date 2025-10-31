@@ -1,2 +1,2 @@
-export declare const typeDefs: import("graphql").DocumentNode;
+export declare const skillTypeDefs: import("graphql").DocumentNode;
 //# sourceMappingURL=skill.typeDefs.d.ts.map

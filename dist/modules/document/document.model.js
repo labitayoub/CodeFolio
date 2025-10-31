@@ -1,8 +1,8 @@
-import { Schema, model } from 'mongoose';
+import { Document, Schema, model, Types } from 'mongoose';
 const documentSchema = new Schema({
-    nom: String,
-    urlStocket: String,
-    userId: { type: Schema.Types.ObjectId, ref: 'User' },
+    nom: { type: String, required: true },
+    urlStocket: { type: String, required: true },
+    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 });
-export const Document = model('Document', documentSchema);
+export const DocumentModel = model('Document', documentSchema);
 //# sourceMappingURL=document.model.js.map

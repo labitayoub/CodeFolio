@@ -1,8 +1,9 @@
+import type { ISkill, ISkillDocument } from './skill.model.js';
 export declare class SkillService {
-    static getAll(): Promise<any>;
-    static getById(id: string): Promise<any>;
-    static create(data: any): Promise<any>;
-    static update(id: string, data: any): Promise<any>;
-    static delete(id: string): Promise<any>;
+    static getAll(): Promise<ISkillDocument[]>;
+    static getById(id: string): Promise<ISkillDocument | null>;
+    static create(data: ISkill): Promise<ISkillDocument>;
+    static update(id: string, data: Partial<ISkill>): Promise<ISkillDocument | null>;
+    static delete(id: string): Promise<ISkillDocument | null>;
 }
 //# sourceMappingURL=skill.service.d.ts.map

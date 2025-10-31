@@ -1,35 +1,13 @@
-import { Schema } from 'mongoose';
-export declare const Document: import("mongoose").Model<{
-    nom?: string | null | undefined;
-    urlStocket?: string | null | undefined;
-    userId?: import("mongoose").Types.ObjectId | null | undefined;
-}, {}, {}, {}, import("mongoose").Document<unknown, {}, {
-    nom?: string | null | undefined;
-    urlStocket?: string | null | undefined;
-    userId?: import("mongoose").Types.ObjectId | null | undefined;
-}, {}, import("mongoose").DefaultSchemaOptions> & {
-    nom?: string | null | undefined;
-    urlStocket?: string | null | undefined;
-    userId?: import("mongoose").Types.ObjectId | null | undefined;
-} & {
-    _id: import("mongoose").Types.ObjectId;
-} & {
-    __v: number;
-}, Schema<any, import("mongoose").Model<any, any, any, any, any, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, {
-    nom?: string | null | undefined;
-    urlStocket?: string | null | undefined;
-    userId?: import("mongoose").Types.ObjectId | null | undefined;
-}, import("mongoose").Document<unknown, {}, import("mongoose").FlatRecord<{
-    nom?: string | null | undefined;
-    urlStocket?: string | null | undefined;
-    userId?: import("mongoose").Types.ObjectId | null | undefined;
-}>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<{
-    nom?: string | null | undefined;
-    urlStocket?: string | null | undefined;
-    userId?: import("mongoose").Types.ObjectId | null | undefined;
+import { Document, Types } from 'mongoose';
+export interface IDocument {
+    nom: string;
+    urlStocket: string;
+    userId: Types.ObjectId;
+}
+export type IDocumentDocument = Document & IDocument;
+export declare const DocumentModel: import("mongoose").Model<IDocumentDocument, {}, {}, {}, Document<unknown, {}, IDocumentDocument, {}, {}> & Document<unknown, any, any, Record<string, any>, {}> & IDocument & Required<{
+    _id: unknown;
 }> & {
-    _id: import("mongoose").Types.ObjectId;
-} & {
     __v: number;
-}>>;
+}, any>;
 //# sourceMappingURL=document.model.d.ts.map

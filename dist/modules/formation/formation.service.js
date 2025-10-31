@@ -1,4 +1,4 @@
-import { Formation } from './formation.model';
+import { Formation } from './formation.model.js';
 export class FormationService {
     static async getAll() {
         return Formation.find();

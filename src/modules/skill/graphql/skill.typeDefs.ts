@@ -1,18 +1,24 @@
 import { gql } from 'apollo-server-express';
 
-export const typeDefs = gql`
+export const skillTypeDefs = gql`
   type Skill {
     id: ID!
     name: String!
+    categorie: String
   }
 
   extend type Query {
-    getCompetences: [Skill]
+     getSkills: [Skill]
+     getCompetences: [Skill]
   }
 
   extend type Mutation {
-    createCompetence(name: String!): Skill
-    updateCompetence(id: ID!, name: String!): Skill
-    deleteCompetence(id: ID!): Skill
+     createSkill(name: String!, categorie: String): Skill
+     updateSkill(id: ID!, name: String, categorie: String): Skill
+     deleteSkill(id: ID!): Skill
+
+     createCompetence(name: String!, categorie: String): Skill
+     updateCompetence(id: ID!, name: String, categorie: String): Skill
+     deleteCompetence(id: ID!): Skill
   }
 `;

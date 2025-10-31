@@ -1,8 +1,8 @@
-import { Schema, model } from 'mongoose';
+import { Document, Schema, model } from 'mongoose';
 const skillSchema = new Schema({
-    nom: String,
-    categorie: String,
-    userId: { type: Schema.Types.ObjectId, ref: 'User' },
+    nom: { type: String, required: true },
+    categorie: { type: String, required: true },
+    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 });
 export const Skill = model('Skill', skillSchema);
 //# sourceMappingURL=skill.model.js.map

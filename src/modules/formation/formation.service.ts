@@ -1,20 +1,21 @@
-import { Formation } from './formation.model';
+import { Formation } from './formation.model.js';
+import type { IFormation, IFormationDocument } from './formation.model.js';
 
 export class FormationService {
-  static async getAll() {
-    return Formation.find();
+  static async getAll(): Promise<IFormationDocument[]> {
+    return Formation.find<IFormationDocument>();
   }
-  static async getById(id: string) {
-    return Formation.findById(id);
+  static async getById(id: string): Promise<IFormationDocument | null> {
+    return Formation.findById<IFormationDocument>(id);
   }
-  static async create(data: any) {
+  static async create(data: IFormation): Promise<IFormationDocument> {
     const formation = new Formation(data);
     return formation.save();
   }
-  static async update(id: string, data: any) {
-    return Formation.findByIdAndUpdate(id, data, { new: true });
+  static async update(id: string, data: Partial<IFormation>): Promise<IFormationDocument | null> {
+    return Formation.findByIdAndUpdate<IFormationDocument>(id, data, { new: true });
   }
-  static async delete(id: string) {
-    return Formation.findByIdAndDelete(id);
+  static async delete(id: string): Promise<IFormationDocument | null> {
+    return Formation.findByIdAndDelete<IFormationDocument>(id);
   }
 }

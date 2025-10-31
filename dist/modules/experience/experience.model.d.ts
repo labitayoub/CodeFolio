@@ -1,53 +1,16 @@
-import { Schema } from 'mongoose';
-export declare const Experience: import("mongoose").Model<{
-    userId?: import("mongoose").Types.ObjectId | null | undefined;
-    description?: string | null | undefined;
-    poste?: string | null | undefined;
-    entreprise?: string | null | undefined;
-    dateDebut?: NativeDate | null | undefined;
-    dateFinal?: NativeDate | null | undefined;
-}, {}, {}, {}, import("mongoose").Document<unknown, {}, {
-    userId?: import("mongoose").Types.ObjectId | null | undefined;
-    description?: string | null | undefined;
-    poste?: string | null | undefined;
-    entreprise?: string | null | undefined;
-    dateDebut?: NativeDate | null | undefined;
-    dateFinal?: NativeDate | null | undefined;
-}, {}, import("mongoose").DefaultSchemaOptions> & {
-    userId?: import("mongoose").Types.ObjectId | null | undefined;
-    description?: string | null | undefined;
-    poste?: string | null | undefined;
-    entreprise?: string | null | undefined;
-    dateDebut?: NativeDate | null | undefined;
-    dateFinal?: NativeDate | null | undefined;
-} & {
+import { Document } from 'mongoose';
+export interface IExperience {
+    poste: string;
+    entreprise: string;
+    dateDebut: Date;
+    dateFinal: Date;
+    description: string;
+    userId: string;
+}
+export type IExperienceDocument = IExperience & Document;
+export declare const Experience: import("mongoose").Model<unknown, unknown, unknown, unknown, Document<unknown, unknown, unknown, unknown, unknown> & Omit<{
     _id: import("mongoose").Types.ObjectId;
 } & {
     __v: number;
-}, Schema<any, import("mongoose").Model<any, any, any, any, any, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, {
-    userId?: import("mongoose").Types.ObjectId | null | undefined;
-    description?: string | null | undefined;
-    poste?: string | null | undefined;
-    entreprise?: string | null | undefined;
-    dateDebut?: NativeDate | null | undefined;
-    dateFinal?: NativeDate | null | undefined;
-}, import("mongoose").Document<unknown, {}, import("mongoose").FlatRecord<{
-    userId?: import("mongoose").Types.ObjectId | null | undefined;
-    description?: string | null | undefined;
-    poste?: string | null | undefined;
-    entreprise?: string | null | undefined;
-    dateDebut?: NativeDate | null | undefined;
-    dateFinal?: NativeDate | null | undefined;
-}>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<{
-    userId?: import("mongoose").Types.ObjectId | null | undefined;
-    description?: string | null | undefined;
-    poste?: string | null | undefined;
-    entreprise?: string | null | undefined;
-    dateDebut?: NativeDate | null | undefined;
-    dateFinal?: NativeDate | null | undefined;
-}> & {
-    _id: import("mongoose").Types.ObjectId;
-} & {
-    __v: number;
-}>>;
+}, never>, IExperienceDocument>;
 //# sourceMappingURL=experience.model.d.ts.map

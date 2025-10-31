@@ -1,6 +1,6 @@
 import { gql } from 'apollo-server-express';
 
-export const typeDefs = gql`
+export const experienceTypeDefs = gql`
   type Experience {
     id: ID!
     company: String!

@@ -1,20 +1,21 @@
-import { ProjectModel } from './project.model';
+import { ProjectModel } from './project.model.js';
+import type { IProject, IProjectDocument } from './project.model.js';
 
 export class ProjectService {
-  async getProjets() {
-    return await ProjectModel.find().populate('skills');
+  async getProjets(): Promise<IProjectDocument[]> {
+    return await ProjectModel.find<IProjectDocument>().populate('skills');
   }
 
-  async createProjet(args: any) {
+  async createProjet(args: IProject): Promise<IProjectDocument> {
     const newProject = new ProjectModel(args);
     return await newProject.save();
   }
 
-  async updateProjet(id: string, args: any) {
-    return await ProjectModel.findByIdAndUpdate(id, args, { new: true });
+  async updateProjet(id: string, args: Partial<IProject>): Promise<IProjectDocument | null> {
+    return await ProjectModel.findByIdAndUpdate<IProjectDocument>(id, args, { new: true });
   }
 
-  async deleteProjet(id: string) {
-    return await ProjectModel.findByIdAndDelete(id);
+  async deleteProjet(id: string): Promise<IProjectDocument | null> {
+    return await ProjectModel.findByIdAndDelete<IProjectDocument>(id);
   }
 }

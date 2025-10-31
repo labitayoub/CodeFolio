@@ -1,6 +1,7 @@
 import { Schema } from 'mongoose';
 export declare const Visitors: import("mongoose").Model<{
     pages_visited: string[];
+    timestamp?: NativeDate | null | undefined;
     ip_address?: string | null | undefined;
     country?: string | null | undefined;
     city?: string | null | undefined;
@@ -10,11 +11,11 @@ export declare const Visitors: import("mongoose").Model<{
     accept_language?: string | null | undefined;
     screen_resolution?: string | null | undefined;
     device_type?: string | null | undefined;
-    timestamp?: NativeDate | null | undefined;
     visit_time?: NativeDate | null | undefined;
     session_duration?: number | null | undefined;
 }, {}, {}, {}, import("mongoose").Document<unknown, {}, {
     pages_visited: string[];
+    timestamp?: NativeDate | null | undefined;
     ip_address?: string | null | undefined;
     country?: string | null | undefined;
     city?: string | null | undefined;
@@ -24,11 +25,11 @@ export declare const Visitors: import("mongoose").Model<{
     accept_language?: string | null | undefined;
     screen_resolution?: string | null | undefined;
     device_type?: string | null | undefined;
-    timestamp?: NativeDate | null | undefined;
     visit_time?: NativeDate | null | undefined;
     session_duration?: number | null | undefined;
 }, {}, import("mongoose").DefaultSchemaOptions> & {
     pages_visited: string[];
+    timestamp?: NativeDate | null | undefined;
     ip_address?: string | null | undefined;
     country?: string | null | undefined;
     city?: string | null | undefined;
@@ -38,7 +39,6 @@ export declare const Visitors: import("mongoose").Model<{
     accept_language?: string | null | undefined;
     screen_resolution?: string | null | undefined;
     device_type?: string | null | undefined;
-    timestamp?: NativeDate | null | undefined;
     visit_time?: NativeDate | null | undefined;
     session_duration?: number | null | undefined;
 } & {
@@ -47,6 +47,7 @@ export declare const Visitors: import("mongoose").Model<{
     __v: number;
 }, Schema<any, import("mongoose").Model<any, any, any, any, any, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, {
     pages_visited: string[];
+    timestamp?: NativeDate | null | undefined;
     ip_address?: string | null | undefined;
     country?: string | null | undefined;
     city?: string | null | undefined;
@@ -56,11 +57,11 @@ export declare const Visitors: import("mongoose").Model<{
     accept_language?: string | null | undefined;
     screen_resolution?: string | null | undefined;
     device_type?: string | null | undefined;
-    timestamp?: NativeDate | null | undefined;
     visit_time?: NativeDate | null | undefined;
     session_duration?: number | null | undefined;
 }, import("mongoose").Document<unknown, {}, import("mongoose").FlatRecord<{
     pages_visited: string[];
+    timestamp?: NativeDate | null | undefined;
     ip_address?: string | null | undefined;
     country?: string | null | undefined;
     city?: string | null | undefined;
@@ -70,11 +71,11 @@ export declare const Visitors: import("mongoose").Model<{
     accept_language?: string | null | undefined;
     screen_resolution?: string | null | undefined;
     device_type?: string | null | undefined;
-    timestamp?: NativeDate | null | undefined;
     visit_time?: NativeDate | null | undefined;
     session_duration?: number | null | undefined;
 }>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<{
     pages_visited: string[];
+    timestamp?: NativeDate | null | undefined;
     ip_address?: string | null | undefined;
     country?: string | null | undefined;
     city?: string | null | undefined;
@@ -84,7 +85,6 @@ export declare const Visitors: import("mongoose").Model<{
     accept_language?: string | null | undefined;
     screen_resolution?: string | null | undefined;
     device_type?: string | null | undefined;
-    timestamp?: NativeDate | null | undefined;
     visit_time?: NativeDate | null | undefined;
     session_duration?: number | null | undefined;
 }> & {

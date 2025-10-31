@@ -1,25 +1,11 @@
 export declare const resolvers: {
     Query: {
-        getProfil: () => {
-            id: string;
-            nom: string;
-            prenom: string;
-            email: string;
-            bio: string;
-        };
+        getProfil: (parent: any, args: any, context: any) => Promise<import("../user.model.js").IUserDocument | null>;
     };
     Mutation: {
-        login: (parent: any, { email, password }: {
-            email: any;
-            password: any;
-        }) => string;
-        updateProfil: (parent: any, args: any) => {
-            id: string;
-            nom: any;
-            prenom: any;
-            email: any;
-            bio: any;
-        };
+        register: (parent: any, args: any) => Promise<import("../user.model.js").IUserDocument>;
+        login: (parent: any, { email, password }: any) => Promise<string>;
+        updateProfil: (parent: any, args: any, context: any) => Promise<import("../user.model.js").IUserDocument | null>;
     };
 };
 //# sourceMappingURL=user.resolvers.d.ts.map

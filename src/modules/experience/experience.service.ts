@@ -1,20 +1,21 @@
-import { Experience } from './experience.model';
+import { Experience } from './experience.model.js';
+import type { IExperience, IExperienceDocument } from './experience.model.js';
 
 export class ExperienceService {
-  static async getAll() {
-    return Experience.find();
+  static async getAll(): Promise<IExperienceDocument[]> {
+    return Experience.find<IExperienceDocument>();
   }
-  static async getById(id: string) {
-    return Experience.findById(id);
+  static async getById(id: string): Promise<IExperienceDocument | null> {
+    return Experience.findById<IExperienceDocument>(id);
   }
-  static async create(data: any) {
+  static async create(data: IExperience): Promise<IExperienceDocument> {
     const exp = new Experience(data);
     return exp.save();
   }
-  static async update(id: string, data: any) {
-    return Experience.findByIdAndUpdate(id, data, { new: true });
+  static async update(id: string, data: Partial<IExperience>): Promise<IExperienceDocument | null> {
+    return Experience.findByIdAndUpdate<IExperienceDocument>(id, data, { new: true });
   }
-  static async delete(id: string) {
-    return Experience.findByIdAndDelete(id);
+  static async delete(id: string): Promise<IExperienceDocument | null> {
+    return Experience.findByIdAndDelete<IExperienceDocument>(id);
   }
 }

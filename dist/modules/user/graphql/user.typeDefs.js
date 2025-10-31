@@ -13,6 +13,7 @@ export const typeDefs = gql `
   }
 
   type Mutation {
+    register(nom: String!, prenom: String!, email: String!, password: String!, bio: String): User
     login(email: String!, password: String!): String # Returns a JWT token
     updateProfil(nom: String, prenom: String, email: String, bio: String): User
   }

@@ -1,4 +1,4 @@
-import { Experience } from './experience.model';
+import { Experience } from './experience.model.js';
 export class ExperienceService {
     static async getAll() {
         return Experience.find();

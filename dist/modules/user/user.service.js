@@ -1,28 +1,33 @@
-import { UserModel } from './user.model';
+import { UserModel } from './user.model.js';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 export class UserService {
-    async getProfil() {
-        // In a real app, you would fetch the user from the database
-        // For now, we'll return a mock user
-        return await UserModel.findOne({ email: 'ayoub@example.com' });
+    async register(args) {
+        const { nom, prenom, email, password, bio } = args;
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = new UserModel({ nom, prenom, email, password: hashedPassword, bio });
+        await user.save();
+        return user;
     }
     async login(email, password) {
         const user = await UserModel.findOne({ email });
         if (!user) {
             throw new Error('User not found');
         }
-        // In a real app, you would compare the password with a hashed password
-        // const isPasswordValid = await bcrypt.compare(password, user.password);
-        // if (!isPasswordValid) {
-        //   throw new Error('Invalid password');
-        // }
-        // In a real app, you would generate a JWT token
-        // return jwt.sign({ userId: user.id }, 'your-secret-key');
-        return 'mock-jwt-token';
+        const isPasswordValid = user ? await bcrypt.compare(password, user.password) : false;
+        if (!isPasswordValid) {
+            throw new Error('Invalid password');
+        }
+        if (!process.env.JWT_SECRET) {
+            throw new Error('JWT_SECRET is not defined');
+        }
+        return jwt.sign({ userId: user.id, nom: user.nom, prenom: user.prenom, email: user.email }, process.env.JWT_SECRET, { expiresIn: "24h" });
     }
-    async updateProfil(args) {
-        // In a real app, you would find the user and update their profile
-        // For now, we'll return a mock updated user
-        const user = await UserModel.findOneAndUpdate({ email: 'ayoub@example.com' }, args, { new: true });
+    async getProfil(userId) {
+        return await UserModel.findById(userId);
+    }
+    async updateProfil(userId, args) {
+        const user = await UserModel.findByIdAndUpdate(userId, args, { new: true });
         return user;
     }
 }

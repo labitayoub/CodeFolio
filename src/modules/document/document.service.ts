@@ -1,20 +1,20 @@
-import { Document } from './document.model';
+import { DocumentModel, type IDocument } from './document.model.js';
 
 export class DocumentService {
   static async getAll() {
-    return Document.find();
+    return DocumentModel.find();
   }
   static async getById(id: string) {
-    return Document.findById(id);
+    return DocumentModel.findById(id);
   }
-  static async create(data: any) {
-    const doc = new Document(data);
+  static async create(data: Partial<IDocument>) {
+    const doc = new DocumentModel(data);
     return doc.save();
   }
-  static async update(id: string, data: any) {
-    return Document.findByIdAndUpdate(id, data, { new: true });
+  static async update(id: string, data: Partial<IDocument>) {
+    return DocumentModel.findByIdAndUpdate(id, data, { new: true });
   }
   static async delete(id: string) {
-    return Document.findByIdAndDelete(id);
+    return DocumentModel.findByIdAndDelete(id);
   }
 }

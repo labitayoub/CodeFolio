@@ -1,4 +1,4 @@
-import { ProjectModel } from './project.model';
+import { ProjectModel } from './project.model.js';
 export class ProjectService {
     async getProjets() {
         return await ProjectModel.find().populate('skills');

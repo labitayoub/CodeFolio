@@ -2,18 +2,25 @@ import { gql } from 'apollo-server-express';
 
 export const documentTypeDefs = gql`
   type Document {
-    id: ID!
-    nom: String
-    urlStocket: String
-    userId: ID
+    _id: ID!
+    nom: String!
+    urlStocket: String!
+    userId: ID!
   }
+
+  input DocumentInput {
+    nom: String!
+    urlStocket: String!
+  }
+
   type Query {
-    documents: [Document]
+    documents: [Document!]!
     document(id: ID!): Document
   }
+
   type Mutation {
-    createDocument(nom: String!, urlStocket: String!, userId: ID!): Document
-    updateDocument(id: ID!, nom: String, urlStocket: String): Document
-    deleteDocument(id: ID!): Document
+    createDocument(input: DocumentInput!): Document!
+    updateDocument(id: ID!, input: DocumentInput!): Document!
+    deleteDocument(id: ID!): Boolean!
   }
 `;

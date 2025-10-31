@@ -1,32 +1,28 @@
+import { UserService } from '../user.service.js';
+
+const userService = new UserService();
+
 export const resolvers = {
   Query: {
-    getProfil: () => {
-      // Mock data for now
-      return {
-        id: '1',
-        nom: 'Mashate',
-        prenom: 'Ayoub',
-        email: 'ayoub@example.com',
-        bio: 'Full-stack developer'
-      };
+    getProfil: async (parent: any, args: any, context: any) => {
+      if (!context.userId) {
+        throw new Error('Authentication required');
+      }
+      return await userService.getProfil(context.userId);
     }
   },
   Mutation: {
-    login: (parent, { email, password }) => {
-      // Mock data for now
-      console.log(`Login attempt with email: ${email}`)
-      return 'mock-jwt-token';
+    register: async (parent: any, args: any) => {
+      return await userService.register(args);
     },
-    updateProfil: (parent, args) => {
-      // Mock data for now
-      console.log('Updating profile with:', args);
-      return {
-        id: '1',
-        nom: args.nom || 'Mashate',
-        prenom: args.prenom || 'Ayoub',
-        email: args.email || 'ayoub@example.com',
-        bio: args.bio || 'Full-stack developer'
-      };
+    login: async (parent: any, { email, password }: any) => {
+      return await userService.login(email, password);
+    },
+    updateProfil: async (parent: any, args: any, context: any) => {
+      if (!context.userId) {
+        throw new Error('Authentication required');
+      }
+      return await userService.updateProfil(context.userId, args);
     }
   }
 };
