@@ -10,4 +10,3 @@ export declare const Skill: import("mongoose").Model<ISkillDocument, {}, {}, {},
 }> & {
     __v: number;
 }, any>;
-//# sourceMappingURL=skill.model.d.ts.map

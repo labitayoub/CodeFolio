@@ -13,4 +13,3 @@ export declare const Experience: import("mongoose").Model<IExperienceDocument, {
 }> & {
     __v: number;
 }, any>;
-//# sourceMappingURL=experience.model.d.ts.map

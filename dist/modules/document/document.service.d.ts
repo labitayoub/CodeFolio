@@ -26,4 +26,3 @@ export declare class DocumentService {
         __v: number;
     }) | null>;
 }
-//# sourceMappingURL=document.service.d.ts.map

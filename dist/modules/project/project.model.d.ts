@@ -13,4 +13,3 @@ export declare const ProjectModel: import("mongoose").Model<IProjectDocument, {}
 }> & {
     __v: number;
 }, any>;
-//# sourceMappingURL=project.model.d.ts.map

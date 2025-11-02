@@ -1,4 +1,4 @@
-import { FormationService } from '../formation.service.js';
+import { FormationService } from '../formation.service';
 
 export const formationResolvers = {
   Query: {

@@ -6,4 +6,3 @@ export declare class FormationService {
     static update(id: string, data: Partial<IFormation>): Promise<IFormationDocument | null>;
     static delete(id: string): Promise<IFormationDocument | null>;
 }
-//# sourceMappingURL=formation.service.d.ts.map

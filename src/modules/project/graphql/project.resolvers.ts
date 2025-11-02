@@ -1,4 +1,4 @@
-import { ProjectService } from '../project.service.js';
+import { ProjectService } from '../project.service';
 
 export const projectResolvers = {
   Query: {

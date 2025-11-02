@@ -10,4 +10,3 @@ export declare const DocumentModel: import("mongoose").Model<IDocumentDocument, 
 }> & {
     __v: number;
 }, any>;
-//# sourceMappingURL=document.model.d.ts.map

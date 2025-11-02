@@ -1,4 +1,4 @@
-import { ExperienceService } from '../experience.service.js';
+import { ExperienceService } from '../experience.service';
 export const experienceResolvers = {
     Query: {
         getExperiences: async () => {

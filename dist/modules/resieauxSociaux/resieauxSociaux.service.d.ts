@@ -6,4 +6,3 @@ export declare class ResieauxSociauxService {
     static update(id: string, data: Partial<IReseauxSociaux>): Promise<IReseauxSociauxDocument | null>;
     static delete(id: string): Promise<IReseauxSociauxDocument | null>;
 }
-//# sourceMappingURL=resieauxSociaux.service.d.ts.map

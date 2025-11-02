@@ -8,4 +8,3 @@ export declare const resolvers: {
         updateProfil: (parent: any, args: any, context: any) => Promise<import("../user.model.js").IUserDocument | null>;
     };
 };
-//# sourceMappingURL=user.resolvers.d.ts.map

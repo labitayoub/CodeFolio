@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: codefolio-mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: codefolio
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - codefolio-network
+
+  backend:
+    build: .
+    container_name: codefolio-backend
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://mongodb:27017/codefolio
+    depends_on:
+      - mongodb
+    networks:
+      - codefolio-network
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+volumes:
+  mongodb_data:
+
+networks:
+  codefolio-network:
+    driver: bridge

@@ -6,4 +6,3 @@ export declare class ExperienceService {
     static update(id: string, data: Partial<IExperience>): Promise<IExperienceDocument | null>;
     static delete(id: string): Promise<IExperienceDocument | null>;
 }
-//# sourceMappingURL=experience.service.d.ts.map

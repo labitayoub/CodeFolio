@@ -11,4 +11,3 @@ export declare const ReseauxSociaux: import("mongoose").Model<IReseauxSociauxDoc
 }> & {
     __v: number;
 }, any>;
-//# sourceMappingURL=resieauxSociaux.model.d.ts.map

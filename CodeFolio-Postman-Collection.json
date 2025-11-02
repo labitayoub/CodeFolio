@@ -1,1015 +1,1459 @@
 {
-  "info": {
-    "name": "CodeFolio API Tests",
-    "description": "Collection complète pour tester toutes les fonctionnalités de l'API GraphQL CodeFolio",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-  },
-  "variable": [
-    {
-      "key": "baseUrl",
-      "value": "http://localhost:4000/graphql",
-      "type": "string"
-    },
-    {
-      "key": "authToken",
-      "value": "",
-      "type": "string"
-    },
-    {
-      "key": "userId",
-      "value": "",
-      "type": "string"
-    }
-  ],
-  "item": [
-    {
-      "name": "Authentication",
-      "item": [
-        {
-          "name": "Register User",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation RegisterUser($nom: String!, $prenom: String!, $email: String!, $password: String!, $bio: String) {\\n  register(nom: $nom, prenom: $prenom, email: $email, password: $password, bio: $bio) {\\n    id\\n    nom\\n    prenom\\n    email\\n    bio\\n  }\\n}\",\n  \"variables\": {\n    \"nom\": \"Labit\",\n    \"prenom\": \"Ayoub\",\n    \"email\": \"ayoub@example.com\",\n    \"password\": \"password123\",\n    \"bio\": \"Développeur Full Stack passionné\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Login User",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation LoginUser($email: String!, $password: String!) {\\n  login(email: $email, password: $password)\\n}\",\n  \"variables\": {\n    \"email\": \"ayoub@example.com\",\n    \"password\": \"password123\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            },
-            "event": [
-              {
-                "listen": "test",
-                "script": {
-                  "exec": [
-                    "if (pm.response.code === 200) {",
-                    "    const response = pm.response.json();",
-                    "    if (response.data && response.data.login) {",
-                    "        pm.collectionVariables.set('authToken', response.data.login);",
-                    "        console.log('Token saved:', response.data.login);",
-                    "    }",
-                    "}"
-                  ]
-                }
-              }
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "User Profile",
-      "item": [
-        {
-          "name": "Get Profile",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"query GetProfile {\\n  getProfil {\\n    id\\n    nom\\n    prenom\\n    email\\n    bio\\n  }\\n}\"\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Update Profile",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation UpdateProfile($nom: String, $prenom: String, $email: String, $bio: String) {\\n  updateProfil(nom: $nom, prenom: $prenom, email: $email, bio: $bio) {\\n    id\\n    nom\\n    prenom\\n    email\\n    bio\\n  }\\n}\",\n  \"variables\": {\n    \"nom\": \"Labit Updated\",\n    \"prenom\": \"Ayoub Updated\",\n    \"bio\": \"Développeur Full Stack Expert en React et Node.js\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Projects",
-      "item": [
-        {
-          "name": "Get All Projects",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"query GetProjects {\\n  projects {\\n    id\\n    titre\\n    description\\n    urlGit\\n    urlDemo\\n    image\\n    userId\\n  }\\n}\"\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Create Project",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation CreateProject($titre: String!, $description: String!, $urlGit: String!, $urlDemo: String!, $image: String!, $userId: ID!) {\\n  createProject(titre: $titre, description: $description, urlGit: $urlGit, urlDemo: $urlDemo, image: $image, userId: $userId) {\\n    id\\n    titre\\n    description\\n    urlGit\\n    urlDemo\\n    image\\n    userId\\n  }\\n}\",\n  \"variables\": {\n    \"titre\": \"Portfolio React\",\n    \"description\": \"Un portfolio moderne développé avec React et TypeScript\",\n    \"urlGit\": \"https://github.com/ayoub/portfolio\",\n    \"urlDemo\": \"https://ayoub-portfolio.netlify.app\",\n    \"image\": \"https://example.com/portfolio-image.jpg\",\n    \"userId\": \"{{userId}}\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Get Project by ID",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"query GetProject($id: ID!) {\\n  project(id: $id) {\\n    id\\n    titre\\n    description\\n    urlGit\\n    urlDemo\\n    image\\n    userId\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"PROJECT_ID_HERE\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Update Project",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation UpdateProject($id: ID!, $titre: String, $description: String, $urlGit: String, $urlDemo: String, $image: String) {\\n  updateProject(id: $id, titre: $titre, description: $description, urlGit: $urlGit, urlDemo: $urlDemo, image: $image) {\\n    id\\n    titre\\n    description\\n    urlGit\\n    urlDemo\\n    image\\n    userId\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"PROJECT_ID_HERE\",\n    \"titre\": \"Portfolio React Updated\",\n    \"description\": \"Portfolio moderne avec animations et dark mode\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Delete Project",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation DeleteProject($id: ID!) {\\n  deleteProject(id: $id) {\\n    id\\n    titre\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"PROJECT_ID_HERE\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Skills & Competences",
-      "item": [
-        {
-          "name": "Get All Skills",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"query GetSkills {\\n  getSkills {\\n    id\\n    name\\n    categorie\\n  }\\n}\"\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Get All Competences",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"query GetCompetences {\\n  getCompetences {\\n    id\\n    name\\n    categorie\\n  }\\n}\"\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Create Skill",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation CreateSkill($name: String!, $categorie: String) {\\n  createSkill(name: $name, categorie: $categorie) {\\n    id\\n    name\\n    categorie\\n  }\\n}\",\n  \"variables\": {\n    \"name\": \"React.js\",\n    \"categorie\": \"Frontend\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Create Competence",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation CreateCompetence($name: String!, $categorie: String) {\\n  createCompetence(name: $name, categorie: $categorie) {\\n    id\\n    name\\n    categorie\\n  }\\n}\",\n  \"variables\": {\n    \"name\": \"Leadership\",\n    \"categorie\": \"Soft Skills\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Update Skill",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation UpdateSkill($id: ID!, $name: String, $categorie: String) {\\n  updateSkill(id: $id, name: $name, categorie: $categorie) {\\n    id\\n    name\\n    categorie\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"SKILL_ID_HERE\",\n    \"name\": \"React.js Advanced\",\n    \"categorie\": \"Frontend Framework\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Delete Skill",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation DeleteSkill($id: ID!) {\\n  deleteSkill(id: $id) {\\n    id\\n    name\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"SKILL_ID_HERE\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Experiences",
-      "item": [
-        {
-          "name": "Get All Experiences",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"query GetExperiences {\\n  getExperiences {\\n    id\\n    company\\n    role\\n    startDate\\n    endDate\\n    description\\n  }\\n}\"\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Create Experience",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation CreateExperience($company: String!, $role: String!, $startDate: String!, $endDate: String, $description: String) {\\n  createExperience(company: $company, role: $role, startDate: $startDate, endDate: $endDate, description: $description) {\\n    id\\n    company\\n    role\\n    startDate\\n    endDate\\n    description\\n  }\\n}\",\n  \"variables\": {\n    \"company\": \"Tech Solutions Inc\",\n    \"role\": \"Développeur Full Stack\",\n    \"startDate\": \"2023-01-15\",\n    \"endDate\": \"2024-01-15\",\n    \"description\": \"Développement d'applications web avec React et Node.js\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Update Experience",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation UpdateExperience($id: ID!, $company: String, $role: String, $startDate: String, $endDate: String, $description: String) {\\n  updateExperience(id: $id, company: $company, role: $role, startDate: $startDate, endDate: $endDate, description: $description) {\\n    id\\n    company\\n    role\\n    startDate\\n    endDate\\n    description\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"EXPERIENCE_ID_HERE\",\n    \"description\": \"Lead développeur sur des projets React et microservices\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Delete Experience",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation DeleteExperience($id: ID!) {\\n  deleteExperience(id: $id) {\\n    id\\n    company\\n    role\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"EXPERIENCE_ID_HERE\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Formations",
-      "item": [
-        {
-          "name": "Get All Formations",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"query GetFormations {\\n  formations {\\n    id\\n    filiere\\n    ecole\\n    localisation\\n    dateDebut\\n    dateFinal\\n    description\\n    userId\\n  }\\n}\"\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Create Formation",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation CreateFormation($filiere: String!, $ecole: String!, $localisation: String!, $dateDebut: String!, $dateFinal: String!, $description: String!, $userId: ID!) {\\n  createFormation(filiere: $filiere, ecole: $ecole, localisation: $localisation, dateDebut: $dateDebut, dateFinal: $dateFinal, description: $description, userId: $userId) {\\n    id\\n    filiere\\n    ecole\\n    localisation\\n    dateDebut\\n    dateFinal\\n    description\\n    userId\\n  }\\n}\",\n  \"variables\": {\n    \"filiere\": \"Informatique\",\n    \"ecole\": \"Université Mohammed V\",\n    \"localisation\": \"Rabat, Maroc\",\n    \"dateDebut\": \"2020-09-01\",\n    \"dateFinal\": \"2023-06-30\",\n    \"description\": \"Licence en Informatique avec spécialisation en développement web\",\n    \"userId\": \"{{userId}}\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Get Formation by ID",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"query GetFormation($id: ID!) {\\n  formation(id: $id) {\\n    id\\n    filiere\\n    ecole\\n    localisation\\n    dateDebut\\n    dateFinal\\n    description\\n    userId\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"FORMATION_ID_HERE\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Update Formation",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation UpdateFormation($id: ID!, $filiere: String, $ecole: String, $localisation: String, $dateDebut: String, $dateFinal: String, $description: String) {\\n  updateFormation(id: $id, filiere: $filiere, ecole: $ecole, localisation: $localisation, dateDebut: $dateDebut, dateFinal: $dateFinal, description: $description) {\\n    id\\n    filiere\\n    ecole\\n    localisation\\n    dateDebut\\n    dateFinal\\n    description\\n    userId\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"FORMATION_ID_HERE\",\n    \"description\": \"Licence en Informatique avec mention Bien\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Delete Formation",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation DeleteFormation($id: ID!) {\\n  deleteFormation(id: $id) {\\n    id\\n    filiere\\n    ecole\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"FORMATION_ID_HERE\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Documents",
-      "item": [
-        {
-          "name": "Get All Documents",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"query GetDocuments {\\n  documents {\\n    _id\\n    nom\\n    urlStocket\\n    userId\\n  }\\n}\"\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Create Document",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation CreateDocument($input: DocumentInput!) {\\n  createDocument(input: $input) {\\n    _id\\n    nom\\n    urlStocket\\n    userId\\n  }\\n}\",\n  \"variables\": {\n    \"input\": {\n      \"nom\": \"CV_Ayoub_Labit.pdf\",\n      \"urlStocket\": \"https://storage.example.com/documents/cv-ayoub.pdf\"\n    }\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Get Document by ID",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"query GetDocument($id: ID!) {\\n  document(id: $id) {\\n    _id\\n    nom\\n    urlStocket\\n    userId\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"DOCUMENT_ID_HERE\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Update Document",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation UpdateDocument($id: ID!, $input: DocumentInput!) {\\n  updateDocument(id: $id, input: $input) {\\n    _id\\n    nom\\n    urlStocket\\n    userId\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"DOCUMENT_ID_HERE\",\n    \"input\": {\n      \"nom\": \"CV_Ayoub_Labit_Updated.pdf\",\n      \"urlStocket\": \"https://storage.example.com/documents/cv-ayoub-updated.pdf\"\n    }\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Delete Document",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation DeleteDocument($id: ID!) {\\n  deleteDocument(id: $id)\\n}\",\n  \"variables\": {\n    \"id\": \"DOCUMENT_ID_HERE\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Réseaux Sociaux",
-      "item": [
-        {
-          "name": "Get All Réseaux Sociaux",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"query GetResieauxSociaux {\\n  resieauxSociauxs {\\n    id\\n    nom\\n    liensSociaux\\n    icon\\n    userId\\n  }\\n}\"\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Create Réseau Social",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation CreateResieauxSociaux($nom: String!, $liensSociaux: String!, $icon: String!, $userId: ID!) {\\n  createResieauxSociaux(nom: $nom, liensSociaux: $liensSociaux, icon: $icon, userId: $userId) {\\n    id\\n    nom\\n    liensSociaux\\n    icon\\n    userId\\n  }\\n}\",\n  \"variables\": {\n    \"nom\": \"LinkedIn\",\n    \"liensSociaux\": \"https://linkedin.com/in/ayoub-labit\",\n    \"icon\": \"fab fa-linkedin\",\n    \"userId\": \"{{userId}}\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Get Réseau Social by ID",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"query GetResieauxSociaux($id: ID!) {\\n  resieauxSociaux(id: $id) {\\n    id\\n    nom\\n    liensSociaux\\n    icon\\n    userId\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"SOCIAL_ID_HERE\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Update Réseau Social",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation UpdateResieauxSociaux($id: ID!, $nom: String, $liensSociaux: String, $icon: String) {\\n  updateResieauxSociaux(id: $id, nom: $nom, liensSociaux: $liensSociaux, icon: $icon) {\\n    id\\n    nom\\n    liensSociaux\\n    icon\\n    userId\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"SOCIAL_ID_HERE\",\n    \"liensSociaux\": \"https://linkedin.com/in/ayoub-labit-updated\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Delete Réseau Social",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation DeleteResieauxSociaux($id: ID!) {\\n  deleteResieauxSociaux(id: $id) {\\n    id\\n    nom\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"SOCIAL_ID_HERE\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Visitors Analytics",
-      "item": [
-        {
-          "name": "Get All Visitors",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"query GetVisitors {\\n  visitors {\\n    id\\n    ip_address\\n    country\\n    city\\n    isp\\n    user_agent\\n    referrer\\n    accept_language\\n    screen_resolution\\n    device_type\\n    timestamp\\n    visit_time\\n    pages_visited\\n    session_duration\\n  }\\n}\"\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Create Visitor",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation CreateVisitor($ip_address: String!, $country: String!, $city: String!, $isp: String!, $user_agent: String!, $referrer: String!, $accept_language: String!, $screen_resolution: String!, $device_type: String!, $timestamp: String!, $visit_time: String!, $pages_visited: [String]!, $session_duration: Int!) {\\n  createVisitor(ip_address: $ip_address, country: $country, city: $city, isp: $isp, user_agent: $user_agent, referrer: $referrer, accept_language: $accept_language, screen_resolution: $screen_resolution, device_type: $device_type, timestamp: $timestamp, visit_time: $visit_time, pages_visited: $pages_visited, session_duration: $session_duration) {\\n    id\\n    ip_address\\n    country\\n    city\\n    isp\\n    user_agent\\n    referrer\\n    accept_language\\n    screen_resolution\\n    device_type\\n    timestamp\\n    visit_time\\n    pages_visited\\n    session_duration\\n  }\\n}\",\n  \"variables\": {\n    \"ip_address\": \"192.168.1.100\",\n    \"country\": \"Morocco\",\n    \"city\": \"Rabat\",\n    \"isp\": \"Maroc Telecom\",\n    \"user_agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36\",\n    \"referrer\": \"https://google.com\",\n    \"accept_language\": \"fr-FR,fr;q=0.9,en;q=0.8\",\n    \"screen_resolution\": \"1920x1080\",\n    \"device_type\": \"Desktop\",\n    \"timestamp\": \"2024-01-15T10:30:00Z\",\n    \"visit_time\": \"10:30:00\",\n    \"pages_visited\": [\"/\", \"/projects\", \"/about\"],\n    \"session_duration\": 300\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Get Visitor by ID",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"query GetVisitor($id: ID!) {\\n  visitor(id: $id) {\\n    id\\n    ip_address\\n    country\\n    city\\n    isp\\n    user_agent\\n    referrer\\n    accept_language\\n    screen_resolution\\n    device_type\\n    timestamp\\n    visit_time\\n    pages_visited\\n    session_duration\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"VISITOR_ID_HERE\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Update Visitor",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation UpdateVisitor($id: ID!, $session_duration: Int, $pages_visited: [String]) {\\n  updateVisitor(id: $id, session_duration: $session_duration, pages_visited: $pages_visited) {\\n    id\\n    ip_address\\n    country\\n    city\\n    session_duration\\n    pages_visited\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"VISITOR_ID_HERE\",\n    \"session_duration\": 450,\n    \"pages_visited\": [\"/\", \"/projects\", \"/about\", \"/contact\"]\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        },
-        {
-          "name": "Delete Visitor",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation DeleteVisitor($id: ID!) {\\n  deleteVisitor(id: $id) {\\n    id\\n    ip_address\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"VISITOR_ID_HERE\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}",
-              "host": ["{{baseUrl}}"]
-            }
-          }
-        }
-      ]
-    }
-  ]
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+		"name": "CodeFolio API - Complete Test Collection",
+		"description": "Collection complète pour tester toutes les fonctionnalités de l'API GraphQL CodeFolio",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"if (response.data && response.data.register) {",
+									"    pm.collectionVariables.set('userId', response.data.register.id);",
+									"    pm.test('User registered successfully', function() {",
+									"        pm.expect(response.data.register).to.have.property('id');",
+									"        pm.expect(response.data.register).to.have.property('email');",
+									"    });",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation Register($nom: String!, $prenom: String!, $email: String!, $password: String!, $bio: String) {\\n  register(nom: $nom, prenom: $prenom, email: $email, password: $password, bio: $bio) {\\n    id\\n    nom\\n    prenom\\n    email\\n    bio\\n  }\\n}\",\n  \"variables\": {\n    \"nom\": \"Labit\",\n    \"prenom\": \"Ayoub\",\n    \"email\": \"ayoub.labit@example.com\",\n    \"password\": \"SecurePass123!\",\n    \"bio\": \"Full Stack Developer passionné par les technologies web modernes\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Créer un nouveau compte utilisateur"
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"if (response.data && response.data.login) {",
+									"    pm.collectionVariables.set('authToken', response.data.login);",
+									"    pm.test('Login successful', function() {",
+									"        pm.expect(response.data.login).to.be.a('string');",
+									"        pm.expect(response.data.login.length).to.be.greaterThan(0);",
+									"    });",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation Login($email: String!, $password: String!) {\\n  login(email: $email, password: $password)\\n}\",\n  \"variables\": {\n    \"email\": \"ayoub.labit@example.com\",\n    \"password\": \"SecurePass123!\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Se connecter et obtenir un token JWT"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Profile",
+			"item": [
+				{
+					"name": "Get Profile",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"query GetProfile {\\n  getProfil {\\n    id\\n    nom\\n    prenom\\n    email\\n    bio\\n  }\\n}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Récupérer les informations du profil utilisateur"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation UpdateProfile($nom: String, $prenom: String, $email: String, $bio: String) {\\n  updateProfil(nom: $nom, prenom: $prenom, email: $email, bio: $bio) {\\n    id\\n    nom\\n    prenom\\n    email\\n    bio\\n  }\\n}\",\n  \"variables\": {\n    \"nom\": \"Labit\",\n    \"prenom\": \"Ayoub\",\n    \"email\": \"ayoub.labit@example.com\",\n    \"bio\": \"Full Stack Developer avec 5+ ans d'expérience\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Mettre à jour les informations du profil"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Projects",
+			"item": [
+				{
+					"name": "Create Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"if (response.data && response.data.createProject) {",
+									"    pm.collectionVariables.set('projectId', response.data.createProject.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation CreateProject($titre: String!, $description: String!, $urlGit: String!, $urlDemo: String!, $image: String!, $userId: ID!) {\\n  createProject(titre: $titre, description: $description, urlGit: $urlGit, urlDemo: $urlDemo, image: $image, userId: $userId) {\\n    id\\n    titre\\n    description\\n    urlGit\\n    urlDemo\\n    image\\n    userId\\n  }\\n}\",\n  \"variables\": {\n    \"titre\": \"Portfolio React\",\n    \"description\": \"Un portfolio moderne et responsive développé avec React et TypeScript\",\n    \"urlGit\": \"https://github.com/labitayoub/portfolio-react\",\n    \"urlDemo\": \"https://ayoub-portfolio.netlify.app\",\n    \"image\": \"https://example.com/images/portfolio.jpg\",\n    \"userId\": \"{{userId}}\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Créer un nouveau projet"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Projects",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"query GetAllProjects {\\n  projects {\\n    id\\n    titre\\n    description\\n    urlGit\\n    urlDemo\\n    image\\n    userId\\n  }\\n}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Récupérer tous les projets"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Project by ID",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"query GetProject($id: ID!) {\\n  project(id: $id) {\\n    id\\n    titre\\n    description\\n    urlGit\\n    urlDemo\\n    image\\n    userId\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"{{projectId}}\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Récupérer un projet par son ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Project",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation UpdateProject($id: ID!, $titre: String, $description: String, $urlGit: String, $urlDemo: String, $image: String) {\\n  updateProject(id: $id, titre: $titre, description: $description, urlGit: $urlGit, urlDemo: $urlDemo, image: $image) {\\n    id\\n    titre\\n    description\\n    urlGit\\n    urlDemo\\n    image\\n    userId\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"{{projectId}}\",\n    \"titre\": \"Portfolio React - Updated\",\n    \"description\": \"Portfolio professionnel avec animations et dark mode\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Mettre à jour un projet"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Project",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation DeleteProject($id: ID!) {\\n  deleteProject(id: $id) {\\n    id\\n    titre\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"{{projectId}}\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Supprimer un projet"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Skills & Competences",
+			"item": [
+				{
+					"name": "Create Skill",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"if (response.data && response.data.createSkill) {",
+									"    pm.collectionVariables.set('skillId', response.data.createSkill.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation CreateSkill($name: String!, $categorie: String) {\\n  createSkill(name: $name, categorie: $categorie) {\\n    id\\n    name\\n    categorie\\n  }\\n}\",\n  \"variables\": {\n    \"name\": \"React\",\n    \"categorie\": \"Frontend\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Créer une nouvelle compétence technique"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Skills",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"query GetSkills {\\n  getSkills {\\n    id\\n    name\\n    categorie\\n  }\\n}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Récupérer toutes les compétences techniques"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Skill",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation UpdateSkill($id: ID!, $name: String, $categorie: String) {\\n  updateSkill(id: $id, name: $name, categorie: $categorie) {\\n    id\\n    name\\n    categorie\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"{{skillId}}\",\n    \"name\": \"React + TypeScript\",\n    \"categorie\": \"Frontend\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Mettre à jour une compétence technique"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Skill",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation DeleteSkill($id: ID!) {\\n  deleteSkill(id: $id) {\\n    id\\n    name\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"{{skillId}}\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Supprimer une compétence technique"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Experiences",
+			"item": [
+				{
+					"name": "Create Experience",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"if (response.data && response.data.createExperience) {",
+									"    pm.collectionVariables.set('experienceId', response.data.createExperience.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation CreateExperience($company: String!, $role: String!, $startDate: String!, $endDate: String, $description: String) {\\n  createExperience(company: $company, role: $role, startDate: $startDate, endDate: $endDate, description: $description) {\\n    id\\n    company\\n    role\\n    startDate\\n    endDate\\n    description\\n  }\\n}\",\n  \"variables\": {\n    \"company\": \"Tech Solutions Inc.\",\n    \"role\": \"Full Stack Developer\",\n    \"startDate\": \"2022-01-15\",\n    \"endDate\": \"2024-10-31\",\n    \"description\": \"Développement d'applications web avec React, Node.js et MongoDB. Collaboration en équipe Agile.\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Créer une nouvelle expérience professionnelle"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Experiences",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"query GetExperiences {\\n  getExperiences {\\n    id\\n    company\\n    role\\n    startDate\\n    endDate\\n    description\\n  }\\n}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Récupérer toutes les expériences professionnelles"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Experience",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation UpdateExperience($id: ID!, $company: String, $role: String, $startDate: String, $endDate: String, $description: String) {\\n  updateExperience(id: $id, company: $company, role: $role, startDate: $startDate, endDate: $endDate, description: $description) {\\n    id\\n    company\\n    role\\n    startDate\\n    endDate\\n    description\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"{{experienceId}}\",\n    \"role\": \"Senior Full Stack Developer\",\n    \"description\": \"Lead developer sur des projets complexes. Mentorat d'équipe junior.\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Mettre à jour une expérience professionnelle"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Experience",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation DeleteExperience($id: ID!) {\\n  deleteExperience(id: $id) {\\n    id\\n    company\\n    role\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"{{experienceId}}\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Supprimer une expérience professionnelle"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Formations",
+			"item": [
+				{
+					"name": "Create Formation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"if (response.data && response.data.createFormation) {",
+									"    pm.collectionVariables.set('formationId', response.data.createFormation.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation CreateFormation($filiere: String!, $ecole: String!, $localisation: String!, $dateDebut: String!, $dateFinal: String!, $description: String!, $userId: ID!) {\\n  createFormation(filiere: $filiere, ecole: $ecole, localisation: $localisation, dateDebut: $dateDebut, dateFinal: $dateFinal, description: $description, userId: $userId) {\\n    id\\n    filiere\\n    ecole\\n    localisation\\n    dateDebut\\n    dateFinal\\n    description\\n    userId\\n  }\\n}\",\n  \"variables\": {\n    \"filiere\": \"Génie Informatique\",\n    \"ecole\": \"École Nationale Supérieure d'Informatique\",\n    \"localisation\": \"Rabat, Maroc\",\n    \"dateDebut\": \"2018-09-01\",\n    \"dateFinal\": \"2021-06-30\",\n    \"description\": \"Formation en développement logiciel, bases de données, réseaux et intelligence artificielle\",\n    \"userId\": \"{{userId}}\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Créer une nouvelle formation"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Formations",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"query GetAllFormations {\\n  formations {\\n    id\\n    filiere\\n    ecole\\n    localisation\\n    dateDebut\\n    dateFinal\\n    description\\n    userId\\n  }\\n}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Récupérer toutes les formations"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Formation by ID",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"query GetFormation($id: ID!) {\\n  formation(id: $id) {\\n    id\\n    filiere\\n    ecole\\n    localisation\\n    dateDebut\\n    dateFinal\\n    description\\n    userId\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"{{formationId}}\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Récupérer une formation par son ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Formation",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation UpdateFormation($id: ID!, $filiere: String, $ecole: String, $localisation: String, $dateDebut: String, $dateFinal: String, $description: String) {\\n  updateFormation(id: $id, filiere: $filiere, ecole: $ecole, localisation: $localisation, dateDebut: $dateDebut, dateFinal: $dateFinal, description: $description) {\\n    id\\n    filiere\\n    ecole\\n    localisation\\n    dateDebut\\n    dateFinal\\n    description\\n    userId\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"{{formationId}}\",\n    \"description\": \"Formation complète avec spécialisation en développement web et mobile\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Mettre à jour une formation"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Formation",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation DeleteFormation($id: ID!) {\\n  deleteFormation(id: $id) {\\n    id\\n    filiere\\n    ecole\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"{{formationId}}\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Supprimer une formation"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Documents",
+			"item": [
+				{
+					"name": "Create Document",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"if (response.data && response.data.createDocument) {",
+									"    pm.collectionVariables.set('documentId', response.data.createDocument._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation CreateDocument($input: DocumentInput!) {\\n  createDocument(input: $input) {\\n    _id\\n    nom\\n    urlStocket\\n    userId\\n  }\\n}\",\n  \"variables\": {\n    \"input\": {\n      \"nom\": \"CV_Ayoub_Labit_2025.pdf\",\n      \"urlStocket\": \"https://storage.example.com/documents/cv-ayoub-labit.pdf\"\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Créer un nouveau document (CV, certificat, etc.)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Documents",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"query GetAllDocuments {\\n  documents {\\n    _id\\n    nom\\n    urlStocket\\n    userId\\n  }\\n}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Récupérer tous les documents"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Document by ID",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"query GetDocument($id: ID!) {\\n  document(id: $id) {\\n    _id\\n    nom\\n    urlStocket\\n    userId\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"{{documentId}}\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Récupérer un document par son ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Document",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation UpdateDocument($id: ID!, $input: DocumentInput!) {\\n  updateDocument(id: $id, input: $input) {\\n    _id\\n    nom\\n    urlStocket\\n    userId\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"{{documentId}}\",\n    \"input\": {\n      \"nom\": \"CV_Ayoub_Labit_Updated_2025.pdf\",\n      \"urlStocket\": \"https://storage.example.com/documents/cv-ayoub-labit-v2.pdf\"\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Mettre à jour un document"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Document",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation DeleteDocument($id: ID!) {\\n  deleteDocument(id: $id)\\n}\",\n  \"variables\": {\n    \"id\": \"{{documentId}}\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Supprimer un document"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Réseaux Sociaux",
+			"item": [
+				{
+					"name": "Create Réseau Social",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"if (response.data && response.data.createResieauxSociaux) {",
+									"    pm.collectionVariables.set('reseauSocialId', response.data.createResieauxSociaux.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation CreateResieauxSociaux($nom: String!, $liensSociaux: String!, $icon: String!, $userId: ID!) {\\n  createResieauxSociaux(nom: $nom, liensSociaux: $liensSociaux, icon: $icon, userId: $userId) {\\n    id\\n    nom\\n    liensSociaux\\n    icon\\n    userId\\n  }\\n}\",\n  \"variables\": {\n    \"nom\": \"LinkedIn\",\n    \"liensSociaux\": \"https://linkedin.com/in/ayoub-labit\",\n    \"icon\": \"fa-linkedin\",\n    \"userId\": \"{{userId}}\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Créer un nouveau lien de réseau social"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Réseaux Sociaux",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"query GetAllResieauxSociaux {\\n  resieauxSociauxs {\\n    id\\n    nom\\n    liensSociaux\\n    icon\\n    userId\\n  }\\n}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Récupérer tous les réseaux sociaux"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Réseau Social by ID",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"query GetResieauxSociaux($id: ID!) {\\n  resieauxSociaux(id: $id) {\\n    id\\n    nom\\n    liensSociaux\\n    icon\\n    userId\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"{{reseauSocialId}}\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Récupérer un réseau social par son ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Réseau Social",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation UpdateResieauxSociaux($id: ID!, $nom: String, $liensSociaux: String, $icon: String) {\\n  updateResieauxSociaux(id: $id, nom: $nom, liensSociaux: $liensSociaux, icon: $icon) {\\n    id\\n    nom\\n    liensSociaux\\n    icon\\n    userId\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"{{reseauSocialId}}\",\n    \"liensSociaux\": \"https://linkedin.com/in/ayoub-labit-updated\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Mettre à jour un réseau social"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Réseau Social",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation DeleteResieauxSociaux($id: ID!) {\\n  deleteResieauxSociaux(id: $id) {\\n    id\\n    nom\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"{{reseauSocialId}}\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Supprimer un réseau social"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Visitors Analytics",
+			"item": [
+				{
+					"name": "Create Visitor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"if (response.data && response.data.createVisitor) {",
+									"    pm.collectionVariables.set('visitorId', response.data.createVisitor.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation CreateVisitor($ip_address: String!, $country: String!, $city: String!, $isp: String!, $user_agent: String!, $referrer: String!, $accept_language: String!, $screen_resolution: String!, $device_type: String!, $timestamp: String!, $visit_time: String!, $pages_visited: [String]!, $session_duration: Int!) {\\n  createVisitor(ip_address: $ip_address, country: $country, city: $city, isp: $isp, user_agent: $user_agent, referrer: $referrer, accept_language: $accept_language, screen_resolution: $screen_resolution, device_type: $device_type, timestamp: $timestamp, visit_time: $visit_time, pages_visited: $pages_visited, session_duration: $session_duration) {\\n    id\\n    ip_address\\n    country\\n    city\\n    isp\\n    user_agent\\n    referrer\\n    accept_language\\n    screen_resolution\\n    device_type\\n    timestamp\\n    visit_time\\n    pages_visited\\n    session_duration\\n  }\\n}\",\n  \"variables\": {\n    \"ip_address\": \"192.168.1.100\",\n    \"country\": \"Morocco\",\n    \"city\": \"Rabat\",\n    \"isp\": \"Maroc Telecom\",\n    \"user_agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36\",\n    \"referrer\": \"https://google.com\",\n    \"accept_language\": \"fr-FR,en-US\",\n    \"screen_resolution\": \"1920x1080\",\n    \"device_type\": \"Desktop\",\n    \"timestamp\": \"2025-11-01T10:30:00Z\",\n    \"visit_time\": \"10:30:00\",\n    \"pages_visited\": [\"/home\", \"/projects\", \"/about\"],\n    \"session_duration\": 450\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Enregistrer une nouvelle visite (analytics)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Visitors",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"query GetAllVisitors {\\n  visitors {\\n    id\\n    ip_address\\n    country\\n    city\\n    isp\\n    user_agent\\n    referrer\\n    accept_language\\n    screen_resolution\\n    device_type\\n    timestamp\\n    visit_time\\n    pages_visited\\n    session_duration\\n  }\\n}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Récupérer toutes les visites"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Visitor by ID",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"query GetVisitor($id: ID!) {\\n  visitor(id: $id) {\\n    id\\n    ip_address\\n    country\\n    city\\n    isp\\n    user_agent\\n    referrer\\n    accept_language\\n    screen_resolution\\n    device_type\\n    timestamp\\n    visit_time\\n    pages_visited\\n    session_duration\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"{{visitorId}}\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Récupérer une visite par son ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Visitor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation UpdateVisitor($id: ID!, $pages_visited: [String], $session_duration: Int) {\\n  updateVisitor(id: $id, pages_visited: $pages_visited, session_duration: $session_duration) {\\n    id\\n    ip_address\\n    country\\n    city\\n    pages_visited\\n    session_duration\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"{{visitorId}}\",\n    \"pages_visited\": [\"/home\", \"/projects\", \"/about\", \"/contact\"],\n    \"session_duration\": 720\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Mettre à jour les données d'une visite (prolonger session, ajouter pages)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Visitor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation DeleteVisitor($id: ID!) {\\n  deleteVisitor(id: $id) {\\n    id\\n    ip_address\\n  }\\n}\",\n  \"variables\": {\n    \"id\": \"{{visitorId}}\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Supprimer une visite"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:4000/graphql",
+			"type": "string"
+		},
+		{
+			"key": "authToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "projectId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "skillId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "competenceId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "experienceId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "formationId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "documentId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "reseauSocialId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "visitorId",
+			"value": "",
+			"type": "string"
+		}
+	]
 }

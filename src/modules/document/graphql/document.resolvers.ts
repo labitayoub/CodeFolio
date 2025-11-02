@@ -1,4 +1,4 @@
-import { DocumentService } from '../document.service.js';
+import { DocumentService } from '../document.service';
 
 export const documentResolvers = {
   Query: {

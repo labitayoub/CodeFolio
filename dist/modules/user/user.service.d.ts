@@ -5,4 +5,3 @@ export declare class UserService {
     static getProfil(userId: string): Promise<IUserDocument | null>;
     static updateProfil(userId: string, args: Partial<IUser>): Promise<IUserDocument | null>;
 }
-//# sourceMappingURL=user.service.d.ts.map

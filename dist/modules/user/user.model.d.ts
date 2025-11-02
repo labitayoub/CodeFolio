@@ -12,4 +12,3 @@ export declare const UserModel: import("mongoose").Model<IUserDocument, {}, {}, 
 }> & {
     __v: number;
 }, any>;
-//# sourceMappingURL=user.model.d.ts.map

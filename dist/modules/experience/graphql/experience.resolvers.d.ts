@@ -1,6 +1,6 @@
 export declare const experienceResolvers: {
     Query: {
-        getExperiences: () => Promise<import("../experience.model.js").IExperienceDocument[]>;
+        getExperiences: () => Promise<import("../experience.model").IExperienceDocument[]>;
     };
     Mutation: {
         createExperience: (_: any, { company, role, startDate, endDate, description }: {
@@ -9,7 +9,7 @@ export declare const experienceResolvers: {
             startDate: string;
             endDate: string;
             description: string;
-        }, context: any) => Promise<import("../experience.model.js").IExperienceDocument>;
+        }, context: any) => Promise<import("../experience.model").IExperienceDocument>;
         updateExperience: (_: any, { id, company, role, startDate, endDate, description }: {
             id: string;
             company: string;
@@ -17,10 +17,10 @@ export declare const experienceResolvers: {
             startDate: string;
             endDate: string;
             description: string;
-        }) => Promise<import("../experience.model.js").IExperienceDocument | null>;
+        }) => Promise<import("../experience.model").IExperienceDocument | null>;
         deleteExperience: (_: any, { id }: {
             id: string;
-        }) => Promise<import("../experience.model.js").IExperienceDocument | null>;
+        }) => Promise<import("../experience.model").IExperienceDocument | null>;
     };
     Experience: {
         company: (experience: any) => any;
@@ -29,4 +29,3 @@ export declare const experienceResolvers: {
         endDate: (experience: any) => any;
     };
 };
-//# sourceMappingURL=experience.resolvers.d.ts.map

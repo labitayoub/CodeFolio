@@ -14,4 +14,3 @@ export declare const Formation: import("mongoose").Model<IFormationDocument, {},
 }> & {
     __v: number;
 }, any>;
-//# sourceMappingURL=formation.model.d.ts.map

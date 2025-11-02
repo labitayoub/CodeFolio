@@ -6,4 +6,3 @@ export declare class SkillService {
     static update(id: string, data: Partial<ISkill>): Promise<ISkillDocument | null>;
     static delete(id: string): Promise<ISkillDocument | null>;
 }
-//# sourceMappingURL=skill.service.d.ts.map

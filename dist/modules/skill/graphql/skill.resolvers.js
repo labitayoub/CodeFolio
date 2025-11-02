@@ -1,4 +1,4 @@
-import { SkillService } from '../skill.service.js';
+import { SkillService } from '../skill.service';
 export const skillResolvers = {
     Query: {
         getCompetences: async () => {
