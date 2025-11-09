@@ -3,8 +3,11 @@ import { ExperienceService } from '../experience.service';
 
 export const experienceResolvers = {
   Query: {
-    getExperiences: async () => {
-      return await ExperienceService.getAll();
+    getExperiences: async (_: any, __: any, context: any) => {
+      if (!context.userId) {
+        throw new Error('Authentication required');
+      }
+      return await ExperienceService.getByUserId(context.userId);
     },
   },
   Mutation: {
@@ -21,7 +24,10 @@ export const experienceResolvers = {
         userId: context.userId
       });
     },
-    updateExperience: async (_: any, { id, company, role, startDate, endDate, description }: { id: string, company: string, role: string, startDate: string, endDate: string, description: string }) => {
+    updateExperience: async (_: any, { id, company, role, startDate, endDate, description }: { id: string, company: string, role: string, startDate: string, endDate: string, description: string }, context: any) => {
+      if (!context.userId) {
+        throw new Error('Authentication required');
+      }
       return await ExperienceService.update(id, {
         entreprise: company,
         poste: role,
@@ -30,7 +36,10 @@ export const experienceResolvers = {
         description
       });
     },
-    deleteExperience: async (_: any, { id }: { id: string }) => {
+    deleteExperience: async (_: any, { id }: { id: string }, context: any) => {
+      if (!context.userId) {
+        throw new Error('Authentication required');
+      }
       return await ExperienceService.delete(id);
     },
   },

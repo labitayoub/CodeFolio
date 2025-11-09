@@ -2,12 +2,37 @@ import { ProjectService } from '../project.service';
 
 export const projectResolvers = {
   Query: {
-    projects: () => ProjectService.getAll(),
-    project: (_: any, { id }: { id: string }) => ProjectService.getById(id),
+    projects: (_: any, __: any, context: any) => {
+      if (!context.userId) {
+        throw new Error('Authentication required');
+      }
+      return ProjectService.getByUserId(context.userId);
+    },
+    project: (_: any, { id }: { id: string }, context: any) => {
+      if (!context.userId) {
+        throw new Error('Authentication required');
+      }
+      return ProjectService.getById(id);
+    },
   },
   Mutation: {
-    createProject: (_: any, args: any) => ProjectService.create(args),
-    updateProject: (_: any, { id, ...data }: any) => ProjectService.update(id, data),
-    deleteProject: (_: any, { id }: { id: string }) => ProjectService.delete(id),
+    createProject: (_: any, args: any, context: any) => {
+      if (!context.userId) {
+        throw new Error('Authentication required');
+      }
+      return ProjectService.create({ ...args, userId: context.userId });
+    },
+    updateProject: (_: any, { id, ...data }: any, context: any) => {
+      if (!context.userId) {
+        throw new Error('Authentication required');
+      }
+      return ProjectService.update(id, data);
+    },
+    deleteProject: (_: any, { id }: { id: string }, context: any) => {
+      if (!context.userId) {
+        throw new Error('Authentication required');
+      }
+      return ProjectService.delete(id);
+    },
   },
 };
