@@ -5,6 +5,9 @@ export class ExperienceService {
   static async getAll(): Promise<IExperienceDocument[]> {
     return Experience.find<IExperienceDocument>();
   }
+  static async getByUserId(userId: string): Promise<IExperienceDocument[]> {
+    return Experience.find<IExperienceDocument>({ userId });
+  }
   static async getById(id: string): Promise<IExperienceDocument | null> {
     return Experience.findById<IExperienceDocument>(id);
   }

@@ -5,6 +5,9 @@ export class FormationService {
   static async getAll(): Promise<IFormationDocument[]> {
     return Formation.find<IFormationDocument>();
   }
+  static async getByUserId(userId: string): Promise<IFormationDocument[]> {
+    return Formation.find<IFormationDocument>({ userId });
+  }
   static async getById(id: string): Promise<IFormationDocument | null> {
     return Formation.findById<IFormationDocument>(id);
   }

@@ -5,6 +5,9 @@ export class ResieauxSociauxService {
   static async getAll(): Promise<IReseauxSociauxDocument[]> {
     return ReseauxSociaux.find();
   }
+  static async getByUserId(userId: string): Promise<IReseauxSociauxDocument[]> {
+    return ReseauxSociaux.find({ userId });
+  }
   static async getById(id: string): Promise<IReseauxSociauxDocument | null> {
     return ReseauxSociaux.findById(id);
   }

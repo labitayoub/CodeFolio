@@ -5,6 +5,9 @@ export class SkillService {
   static async getAll(): Promise<ISkillDocument[]> {
     return Skill.find<ISkillDocument>();
   }
+  static async getByUserId(userId: string): Promise<ISkillDocument[]> {
+    return Skill.find<ISkillDocument>({ userId });
+  }
   static async getById(id: string): Promise<ISkillDocument | null> {
     return Skill.findById<ISkillDocument>(id);
   }

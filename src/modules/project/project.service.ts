@@ -10,6 +10,14 @@ export class ProjectService {
     }
   }
 
+  static async getByUserId(userId: string): Promise<IProjectDocument[]> {
+    try {
+      return await ProjectModel.find<IProjectDocument>({ userId });
+    } catch (error) {
+      throw new Error('Failed to fetch user projects');
+    }
+  }
+
   static async getById(id: string): Promise<IProjectDocument | null> {
     try {
       return await ProjectModel.findById<IProjectDocument>(id);

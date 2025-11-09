@@ -4,6 +4,9 @@ export class DocumentService {
   static async getAll() {
     return DocumentModel.find();
   }
+  static async getByUserId(userId: string) {
+    return DocumentModel.find({ userId });
+  }
   static async getById(id: string) {
     return DocumentModel.findById(id);
   }

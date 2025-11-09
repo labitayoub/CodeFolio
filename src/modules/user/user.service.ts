@@ -5,9 +5,16 @@ import jwt from 'jsonwebtoken';
 
 export class UserService {
   static async register(args: IUser): Promise<IUserDocument> {
-    const { nom, prenom, email, password, bio } = args;
+    const { nom, prenom, username, email, password, bio } = args;
+    
+    // Vérifier si username existe déjà
+    const existingUser = await UserModel.findOne({ username });
+    if (existingUser) {
+      throw new Error('Username already exists');
+    }
+    
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new UserModel({ nom, prenom, email, password: hashedPassword, bio });
+    const user = new UserModel({ nom, prenom, username, email, password: hashedPassword, bio });
     return await user.save();
   }
 
@@ -35,5 +42,9 @@ export class UserService {
 
   static async updateProfil(userId: string, args: Partial<IUser>): Promise<IUserDocument | null> {
     return await UserModel.findByIdAndUpdate<IUserDocument>(userId, args, { new: true }).select('-password');
+  }
+
+  static async getUserByUsername(username: string): Promise<IUserDocument | null> {
+    return await UserModel.findOne<IUserDocument>({ username: username.toLowerCase() }).select('-password');
   }
 }

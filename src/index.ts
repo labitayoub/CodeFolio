@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import { ApolloServer } from "apollo-server-express";
 import dotenv from "dotenv";
 import { typeDefs as userTypeDefs } from "./modules/user/graphql/user.typeDefs.js";
@@ -24,6 +25,12 @@ dotenv.config();
 
 const startServer = async () => {
   const app = express();
+
+  // Enable CORS for frontend
+  app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+  }));
 
   // apply auth middleware to populate req.userId from Authorization header
   app.use(authMiddleware);
