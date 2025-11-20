@@ -14,8 +14,6 @@ import { formationTypeDefs } from "./modules/formation/graphql/formation.typeDef
 import { formationResolvers } from "./modules/formation/graphql/formation.resolvers.js";
 import { documentTypeDefs } from "./modules/document/graphql/document.typeDefs.js";
 import { documentResolvers } from "./modules/document/graphql/document.resolvers.js";
-import { visitorsTypeDefs } from "./modules/visitors/graphql/visitors.typeDefs.js";
-import { visitorsResolvers } from "./modules/visitors/graphql/visitors.resolvers.js";
 import { resieauxSociauxTypeDefs } from "./modules/resieauxSociaux/graphql/resieauxSociaux.typeDefs.js";
 import { resieauxSociauxResolvers } from "./modules/resieauxSociaux/graphql/resieauxSociaux.resolvers.js";
 import { connectDB } from "./config/db.js";
@@ -43,7 +41,6 @@ const startServer = async () => {
       experienceTypeDefs,
       formationTypeDefs,
       documentTypeDefs,
-      visitorsTypeDefs,
       resieauxSociauxTypeDefs
     ],
     resolvers: [
@@ -53,7 +50,6 @@ const startServer = async () => {
       experienceResolvers,
       formationResolvers,
       documentResolvers,
-      visitorsResolvers,
       resieauxSociauxResolvers
     ],
     context: ({ req }: any) => ({ userId: (req as any).userId }),
